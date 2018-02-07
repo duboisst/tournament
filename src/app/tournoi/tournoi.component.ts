@@ -25,7 +25,7 @@ export class TournoiComponent implements OnInit {
     this.tournoiService.getTournoi(id).subscribe(tournoi => this.tournoi = tournoi);
   }
 
-  getTableaux(tournoi_id) {
+  getTableaux(tournoi_id): void {
     this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
   }
 
@@ -33,7 +33,7 @@ export class TournoiComponent implements OnInit {
     return tableau.nombreInscrits() >= tableau.nb_max ;
   }
 
-  heureDebut(tableau) {
+  heureDebut(tableau): string {
     var debut = new Date(tableau.date_debut);
     return debut.toLocaleString();
   }

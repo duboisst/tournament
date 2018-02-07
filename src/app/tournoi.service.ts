@@ -4,8 +4,11 @@ import { of } from 'rxjs/observable/of';
 
 import { Tournoi } from './tournoi';
 import { Tableau } from './tableau';
+import { Joueur } from './joueur';
 import { TOURNOIS } from './mock-tournois';
 import { TABLEAUX } from './mock-tournois';
+import { INSCRITS } from './mock-tournois';
+import { JOUEURS } from './mock-tournois';
 
 @Injectable()
 export class TournoiService {
@@ -17,20 +20,19 @@ export class TournoiService {
   }
 
   getTournoi(id): Observable<Tournoi> {
-    var t: Tournoi = TOURNOIS.find(function(element) {
-      return element._id == id;
-    });
-   
+    var t: Tournoi = TOURNOIS.find(element => {return element._id == id;});   
     return of(t);
   }
 
   getTableaux(tournoi_id): Observable<Tableau[]> {
-    var t: Tableau[] = TABLEAUX.filter(function(element) {
-      return element.tournoi_id == tournoi_id;
-    });
+    var t: Tableau[] = TABLEAUX.filter(element => {return element.tournoi_id == tournoi_id;});
     return of(t);
   }
 
+  getInscrits(tableau_id): Observable<Joueur[]> {
+    var t: Joueur[] = INSCRITS.filter(element => {return element.tableau_id == tableau_id;}).map(element => element.joueur);
+    return of(t);
+  }
 
 }
 
