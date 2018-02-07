@@ -38,6 +38,19 @@ export class Tournoi {
         } 
     }
 
+    duAu() {
+        var s: string;
+        var optionsD = {weekday: "long", month: "long", day: "numeric"};
+        var optionsF = {weekday: "long", year: "numeric", month: "long", day: "numeric"};        
+        if (this.date_debut.getTime() === this.date_fin.getTime()) {
+            s = "Le " + this.date_debut.toLocaleDateString("fr-FR" ,optionsF);
+        }
+        else {
+            s = "Du " + this.date_debut.toLocaleDateString("fr-FR" ,optionsD) + " au " + this.date_fin.toLocaleDateString("fr-FR", optionsF);
+        }
+        return s;
+    }
+
     dateDebut() {
         return this.date_debut.toLocaleDateString();
       }
