@@ -12,7 +12,4 @@ export class Tableau {
         this._id = _id; this.tournoi_id = tournoi_id, this.nom = nom; this.description = description, this.cl_min = cl_min, this.cl_max = cl_max, this.date_debut = date_debut, this.nb_max = nb_max;
     }
 
-    nombreInscrits():number {
-        return 12;
-    }
 }

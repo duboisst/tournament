@@ -29,8 +29,14 @@ export class TournoiComponent implements OnInit {
     this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
   }
 
+  nombreInscrits(tableau): number {
+    var n: number = 10000;
+    this.tournoiService.getInscrits(tableau._id).subscribe(i => n = i.length)
+    return n;
+  }
+
   tableauComplet(tableau):boolean {
-    return tableau.nombreInscrits() >= tableau.nb_max ;
+    return this.nombreInscrits(tableau) >= tableau.nb_max ;
   }
 
   heureDebut(tableau): string {
