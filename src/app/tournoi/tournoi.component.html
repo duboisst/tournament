@@ -1,0 +1,28 @@
+  <div class="container">
+    <h1 class="display-4">{{tournoi.nom}}</h1>
+    <p class="lead">{{tournoi.description}}</p>
+    <hr class="my-4">
+  </div>
+
+  <div class="container">
+    <h1 class="display-2">Tableaux</h1>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Date/Heure</th>
+          <th>Nom</th>
+          <th>Description</th>
+          <th>Nombre d'inscrits</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tableau of tableaux">
+          <td>{{ heureDebut(tableau) }}</td>
+          <td>{{ tableau.nom }}</td>
+          <td>{{ tableau.description }}</td>
+          <td>{{ nombreInscrits(tableau) }} <span *ngIf="tableauComplet(tableau)" class="label label-danger">complet</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr class="my-4">
+  </div>
