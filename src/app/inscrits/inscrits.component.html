@@ -1,0 +1,22 @@
+<div class="container">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Club</th>
+          <th>Classement</th>
+          <th>Catégorie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let joueur of joueurs" role="button">
+          <td>{{ joueur.nom }}</td>
+          <td>{{ joueur.prenom }}</td>
+          <td>{{ joueur.club }}</td>
+          <td>{{ joueur.classement }}</td>
+          <td>{{ joueur.categorie }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

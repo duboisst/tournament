@@ -1,31 +1,41 @@
-  <div class="container">
-    <h1>{{tournoi.nom}}</h1>
-    <h3>{{tournoi.duAu()}}</h3>
-    <h2>Tournoi {{tournoi.nom_type}}</h2>
-    <hr class="my-4">
-    <p class="lead">{{tournoi.description}}</p>
-    <hr class="my-4">
-  </div>
+<div class="container">
+  <h1>{{tournoi.nom}}</h1>
+  <h3>{{tournoi.duAu()}}</h3>
+  <h2>Tournoi {{tournoi.nom_type}}</h2>
+  <hr class="my-4">
+  <p class="lead">{{tournoi.description}}</p>
+  <hr class="my-4">
+</div>
 
-  <div class="container">
-    <h1 class="display-2">Tableaux</h1>
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Date/Heure</th>
-          <th>Nom</th>
-          <th>Description</th>
-          <th>Nombre d'inscrits</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let tableau of tableaux">
-          <td>{{ heureDebut(tableau) }}</td>
-          <td>{{ tableau.nom }}</td>
-          <td>{{ tableau.description }}</td>
-          <td>{{ nombreInscrits(tableau) }} <span *ngIf="tableauComplet(tableau)" class="label label-danger">complet</span></td>
-        </tr>
-      </tbody>
-    </table>
-    <hr class="my-4">
-  </div>
+<div class="container">
+  <h1 class="display-2">Tableaux</h1>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Date/Heure</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Nombre d'inscrits</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let tableau of tableaux let i=index">
+          <tr class="accordion-toggle" role="button" data-toggle="collapse" [attr.data-target]="'#accordion_' + [i]">
+              <td>{{ heureDebut(tableau) }}</td>
+              <td>{{ tableau.nom }}</td>
+              <td>{{ tableau.description }}</td>
+              <td>{{ nombreInscrits(tableau) }} <span *ngIf="tableauComplet(tableau)" class="label label-danger">complet</span></td>
+              <td><i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></td>
+          </tr>
+          <tr class="collapse" id="accordion_{{i}}">
+            <td colspan="5">
+              <app-inscrits [tableau]="tableau" [i]="i"></app-inscrits>
+            </td>
+          </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <hr class="my-4">
+</div>
+
+

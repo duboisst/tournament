@@ -8,6 +8,7 @@ import { TournoisComponent } from './tournois/tournois.component';
 import { TournoiComponent } from './tournoi/tournoi.component';
 
 import {TournoiService} from './tournoi.service';
+import { InscritsComponent } from './inscrits/inscrits.component';
 
 const appRoutes: Routes = [
   {
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     AppComponent,
     NavbarComponent,
     TournoisComponent,
-    TournoiComponent
+    TournoiComponent,
+    InscritsComponent
   ],
   imports: [
     BrowserModule,
