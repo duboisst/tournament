@@ -12,7 +12,9 @@ import { TournoiService } from '../tournoi.service';
 export class NavbarComponent implements OnInit {
   tournois: Tournoi[];
 
-  constructor(private tournoiService: TournoiService) { }
+  constructor(private tournoiService: TournoiService) { 
+
+  }
 
   ngOnInit() {
     this.tournoiService.getTournois().subscribe(_tournois => this.tournois = _tournois);
@@ -26,8 +28,6 @@ export class NavbarComponent implements OnInit {
       return this.tournois.filter(function(element) {
         return element.type == type;
       }).length;
-      }
     }
   }
-
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Tournoi } from '../tournoi';
 import { TournoiService } from '../tournoi.service';
@@ -11,14 +12,29 @@ import { TournoiService } from '../tournoi.service';
 export class TournoisComponent implements OnInit {
   tournois: Tournoi[];
 
-  constructor(private tournoiService: TournoiService) { }
+  constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { 
+    route.params.subscribe(val => {
+      // put the code from `ngOnInit` here
+      this.getTournois();
+    });
+  }
 
   ngOnInit() {
-    this.getTournois();
+    
   }
 
   getTournois(): void {
-    this.tournoiService.getTournois().subscribe(tournois => this.tournois = tournois);
+    var type = this.route.snapshot.params['type'];
+    this.tournoiService.getTournois().subscribe(tournois => { 
+      if (type) {
+        this.tournois = tournois.filter(function(t) {
+          return t.type == type;
+        });
+      }
+      else {
+        this.tournois = tournois;
+      }
+    });
   }
 
 }
