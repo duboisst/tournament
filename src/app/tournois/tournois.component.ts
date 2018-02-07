@@ -20,4 +20,5 @@ export class TournoisComponent implements OnInit {
   getTournois(): void {
     this.tournoiService.getTournois().subscribe(tournois => this.tournois = tournois);
   }
+
 }

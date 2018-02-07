@@ -1,3 +1,5 @@
+import {Tableau} from './tableau';
+
 export class Tournoi {
     _id: number;
     nom: string;

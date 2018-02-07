@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Tournoi } from '../tournoi';
+import { Tableau } from '../tableau';
 import { TournoiService } from '../tournoi.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { TournoiService } from '../tournoi.service';
 })
 export class TournoiComponent implements OnInit {
   tournoi: Tournoi;
-  tableaux: any[];
+  tableaux: Tableau[];
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { }
 
@@ -24,20 +25,12 @@ export class TournoiComponent implements OnInit {
     this.tournoiService.getTournoi(id).subscribe(tournoi => this.tournoi = tournoi);
   }
 
-  getTableaux(id) {
-    this.tableaux = [
-      {"nom": "Tableau A", "description": "de 500 à 999 points", "cl_min": 500, "cl_max": 999, "date_debut": "05/10/2018 10:00", "nb_max": 48},
-      {"nom": "Tableau B", "description": "de 1400 à N°300", "cl_min": 1400, "cl_max": 2250, "date_debut": "05/10/2018 11:00", "nb_max": 96},
-    ];
-
+  getTableaux(tournoi_id) {
+    this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
   }
 
   tableauComplet(tableau):boolean {
-    return true;
-  }
-
-  nombreInscrits(tableau) {
-    return 10;
+    return tableau.nombreInscrits() >= tableau.nb_max ;
   }
 
   heureDebut(tableau) {

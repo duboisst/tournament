@@ -20,7 +20,7 @@
           <td>{{ heureDebut(tableau) }}</td>
           <td>{{ tableau.nom }}</td>
           <td>{{ tableau.description }}</td>
-          <td>{{ nombreInscrits(tableau) }} <span *ngIf="tableauComplet(tableau)" class="label label-danger">complet</span></td>
+          <td>{{ tableau.nombreInscrits() }} <span *ngIf="tableauComplet(tableau)" class="label label-danger">complet</span></td>
         </tr>
       </tbody>
     </table>
