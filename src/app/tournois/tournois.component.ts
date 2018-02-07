@@ -9,10 +9,12 @@ import { TournoiService } from '../tournoi.service';
   templateUrl: './tournois.component.html',
   styleUrls: ['./tournois.component.css']
 })
+
 export class TournoisComponent implements OnInit {
   tournois: Tournoi[];
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { 
+    // The following code is here to make the component reload event if only the param changed in the route
     route.params.subscribe(val => {
       // put the code from `ngOnInit` here
       this.getTournois();

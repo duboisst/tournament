@@ -1,16 +1,8 @@
 import {Tableau} from './tableau';
 
 export class Tournoi {
-    _id: number;
-    nom: string;
-    date_debut: Date;
-    date_fin: Date;
-    type: string;
     nom_type: string;
-    description: string;
-
-    constructor(_id, nom, date_debut, date_fin, type, description) {
-        this._id = _id; this.nom = nom, this.date_debut = date_debut; this.date_fin = date_fin; this.type = type; this.description = description;
+    constructor(public _id:string, public nom:string, public date_debut:Date, public date_fin:Date, public type:string, public description:string) {
         switch (this.type) {
             case 'I': {
                 this.nom_type = "International";
@@ -38,7 +30,7 @@ export class Tournoi {
         } 
     }
 
-    duAu() {
+    duAu(): string {
         var s: string;
         var optionsD = {weekday: "long", month: "long", day: "numeric"};
         var optionsF = {weekday: "long", year: "numeric", month: "long", day: "numeric"};        
@@ -51,11 +43,11 @@ export class Tournoi {
         return s;
     }
 
-    dateDebut() {
+    dateDebut(): string {
         return this.date_debut.toLocaleDateString();
       }
     
-    jours() {
+    jours(): string {
         var debut = new Date(this.date_debut);
         var jours = [];
         for (var d = debut; d <= this.date_fin; d.setDate(d.getDate() + 1)) {
@@ -64,7 +56,7 @@ export class Tournoi {
         return jours.join(" - ");
     }
     
-    private weekday(n) {
+    private weekday(n): string {
         var weekday = new Array(7);
         weekday[0] =  "Dimanche";
         weekday[1] = "Lundi";
@@ -75,9 +67,9 @@ export class Tournoi {
         weekday[6] = "Samedi";
         
         return weekday[n];
-    }
-    
-    labelClass() {
+    }    
+
+    labelClass():string {
         switch(this.type) { 
           case 'I': { 
             return 'label-danger';
