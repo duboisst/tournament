@@ -11,6 +11,7 @@ import { TournoiService } from '../tournoi.service';
 })
 
 export class TournoisComponent implements OnInit {
+  title: string = 'Tous les tournois';
   tournois: Tournoi[];
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { 
@@ -18,8 +19,7 @@ export class TournoisComponent implements OnInit {
     route.params.subscribe(val => {
       // put the code from `ngOnInit` here
       var km = this.route.snapshot.params['km'];
-      if (km) {
-        // this.getTournoisAutour();
+      if (km) {        
         if (navigator.geolocation) { 
           navigator.geolocation.getCurrentPosition(position => {
             this.getTournoisAutour(position, km);
@@ -43,9 +43,35 @@ export class TournoisComponent implements OnInit {
     var type = this.route.snapshot.params['type'];
     this.tournoiService.getTournois().subscribe(tournois => { 
       if (type) {
-        this.tournois = tournois.filter(function(t) {
-          return t.type == type;
-        });
+        this.tournois = tournois.filter(t => t.type == type);
+        var nom_type: string;
+        switch (type) {
+          case 'I': {
+              nom_type = "Internationaux";
+              break;
+          }
+          case 'NA': {
+              nom_type = "National A";
+              break;
+          }
+          case 'NB': {
+              nom_type = "National B";
+              break;
+          }
+          case 'R': {
+              nom_type = "Régionaux";
+              break;
+          }
+          case 'D': {
+              nom_type = "Départementaux";
+              break;
+          }
+          default: {
+              nom_type = "";
+          }
+        } 
+
+        this.title = "Les tournois " + nom_type;
       }
       else {
         this.tournois = tournois;
@@ -56,6 +82,7 @@ export class TournoisComponent implements OnInit {
   getTournoisAutour(position, km): void {
     this.tournoiService.getTournoisAutour(position, km).subscribe(tournois => { 
       this.tournois = tournois;
+      this.title = "Les tournois à moins de " + km + "km";
     });
   }
 

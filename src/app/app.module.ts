@@ -14,7 +14,7 @@ const appRoutes: Routes = [
   {
     path: 'tournois',
     component: TournoisComponent,
-    // data: { title: 'Book List' }
+    // data: { title: 'Tous les tournois' }
   },
   {
     path: 'tournois/type/:type',
