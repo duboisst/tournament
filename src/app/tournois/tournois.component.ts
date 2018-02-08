@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+// Add the RxJS Observable operators we need in this app.
+import '../rxjs-operators';
+
+import { ActivatedRoute, Params, Data, ParamMap  } from '@angular/router';
 
 import { Tournoi } from '../tournoi';
 import { TournoiService } from '../tournoi.service';
@@ -11,32 +15,45 @@ import { TournoiService } from '../tournoi.service';
 })
 
 export class TournoisComponent implements OnInit {
-  title: string = 'Tous les tournois';
+  title: string;
   tournois: Tournoi[];
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { 
-    // The following code is here to make the component reload event if only the param changed in the route
+    // The following code is here to make the component reload event if, only the param changed in the route
     route.params.subscribe(val => {
+
       // put the code from `ngOnInit` here
-      var km = this.route.snapshot.params['km'];
-      if (km) {        
-        if (navigator.geolocation) { 
-          navigator.geolocation.getCurrentPosition(position => {
-            this.getTournoisAutour(position, km);
-          });
-        }
-        else {
-          alert('Impossible de déterminer votre position');
-        }
+      switch (this.route.snapshot.data['navTo']) {
+        case 'autour':
+          var km = this.route.snapshot.params['km'];
+          if (km) {        
+            if (navigator.geolocation) { 
+              navigator.geolocation.getCurrentPosition(position => {
+                this.getTournoisAutour(position, km);
+              });
+            }
+            else {
+              alert('Impossible de déterminer votre position');
+            }
+          }
+          break;
+        case 'search':
+          this.route.queryParamMap.subscribe(params => this.searchTournois(params.get('q')));
+          break;
+        case 'tous':
+        case 'type':
+        default:
+          this.getTournois();
       }
-      else {
-        this.getTournois();
-      }
+
     });
   }
 
   ngOnInit() {
-    
+  }
+
+  search() {
+    alert(this.route);
   }
 
   getTournois(): void {
@@ -70,11 +87,11 @@ export class TournoisComponent implements OnInit {
               nom_type = "";
           }
         } 
-
         this.title = "Les tournois " + nom_type;
       }
       else {
         this.tournois = tournois;
+        this.title = 'Tous les tournois';
       }
     });
   }
@@ -85,5 +102,13 @@ export class TournoisComponent implements OnInit {
       this.title = "Les tournois à moins de " + km + "km";
     });
   }
+
+  searchTournois(search: string): void {
+    this.tournoiService.searchTournois(search).subscribe(tournois => { 
+      this.tournois = tournois;
+      this.title = "Les tournois correspondant à \"" +  search + "\"";
+    });
+  }
+
 
 }

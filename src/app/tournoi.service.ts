@@ -23,6 +23,10 @@ export class TournoiService {
     return of(TOURNOIS);
   }
 
+  searchTournois(search): Observable<Tournoi[]> {
+    return of(TOURNOIS);
+  }
+
   getTournoi(id): Observable<Tournoi> {
     var t: Tournoi = TOURNOIS.find(element => {return element._id == id;});   
     return of(t);
