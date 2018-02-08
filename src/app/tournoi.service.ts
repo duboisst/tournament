@@ -24,7 +24,8 @@ export class TournoiService {
   }
 
   searchTournois(search): Observable<Tournoi[]> {
-    return of(TOURNOIS);
+    var t: Tournoi[] = TOURNOIS.filter(element => {return  element.nom.search(new RegExp(search, 'i')) != -1;});
+    return of(t);
   }
 
   getTournoi(id): Observable<Tournoi> {

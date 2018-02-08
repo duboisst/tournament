@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import {Tournoi} from '../tournoi';
 import { TournoiService } from '../tournoi.service';
@@ -12,7 +13,7 @@ import { TournoiService } from '../tournoi.service';
 export class NavbarComponent implements OnInit {
   tournois: Tournoi[];
 
-  constructor(private tournoiService: TournoiService) { 
+  constructor(private tournoiService: TournoiService, private router:Router) { 
 
   }
 
@@ -27,5 +28,13 @@ export class NavbarComponent implements OnInit {
     else {
       return this.tournois.filter(tournoi => tournoi.type == type).length;
     }
+  }
+
+  clickOnSearchButton(input) {
+    this.router.navigate(['/tournois/search'], { queryParams: { q: input.value } });
+  }
+
+  onSearchEnter(input, e) {
+      this.clickOnSearchButton(input);
   }
 }

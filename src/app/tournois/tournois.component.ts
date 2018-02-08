@@ -23,9 +23,9 @@ export class TournoisComponent implements OnInit {
     route.params.subscribe(val => {
 
       // put the code from `ngOnInit` here
-      switch (this.route.snapshot.data['navTo']) {
+      switch (route.snapshot.data['navTo']) {
         case 'autour':
-          var km = this.route.snapshot.params['km'];
+          var km = route.snapshot.params['km'];
           if (km) {        
             if (navigator.geolocation) { 
               navigator.geolocation.getCurrentPosition(position => {
@@ -38,7 +38,7 @@ export class TournoisComponent implements OnInit {
           }
           break;
         case 'search':
-          this.route.queryParamMap.subscribe(params => this.searchTournois(params.get('q')));
+          route.queryParamMap.subscribe(params => this.searchTournois(params.get('q')));
           break;
         case 'tous':
         case 'type':
@@ -50,10 +50,6 @@ export class TournoisComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  search() {
-    alert(this.route);
   }
 
   getTournois(): void {

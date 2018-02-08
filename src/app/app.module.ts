@@ -49,7 +49,7 @@ const appRoutes: Routes = [
     TournoisComponent,
     TournoiComponent,
     InscritsComponent,
-    NbInscritsComponent
+    NbInscritsComponent,
   ],
   imports: [
     BrowserModule,
