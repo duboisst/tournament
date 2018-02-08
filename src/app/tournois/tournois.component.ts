@@ -17,7 +17,21 @@ export class TournoisComponent implements OnInit {
     // The following code is here to make the component reload event if only the param changed in the route
     route.params.subscribe(val => {
       // put the code from `ngOnInit` here
-      this.getTournois();
+      var km = this.route.snapshot.params['km'];
+      if (km) {
+        // this.getTournoisAutour();
+        if (navigator.geolocation) { 
+          navigator.geolocation.getCurrentPosition(position => {
+            this.getTournoisAutour(position, km);
+          });
+        }
+        else {
+          alert('Impossible de déterminer votre position');
+        }
+      }
+      else {
+        this.getTournois();
+      }
     });
   }
 
@@ -36,6 +50,12 @@ export class TournoisComponent implements OnInit {
       else {
         this.tournois = tournois;
       }
+    });
+  }
+
+  getTournoisAutour(position, km): void {
+    this.tournoiService.getTournoisAutour(position, km).subscribe(tournois => { 
+      this.tournois = tournois;
     });
   }
 

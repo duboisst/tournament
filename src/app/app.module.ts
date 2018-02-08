@@ -21,6 +21,10 @@ const appRoutes: Routes = [
     component: TournoisComponent,
   },
   {
+    path: 'tournois/autour/:km',
+    component: TournoisComponent,
+  },
+  {
     path: 'tournoi/:id',
     component: TournoiComponent,
   },
