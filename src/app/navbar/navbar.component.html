@@ -14,13 +14,13 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#" [routerLink]="['/tournois']">Tous <span class="badge">{{ nombreTournois() }}</span><span class="sr-only">(current)</span></a></li>
-              <li *ngIf="nombreTournois('I') > 0"><a href="#"  [routerLink]="['/tournois/type/I']">International <span class="badge">{{ nombreTournois("I") }}</span></a></li>
-              <li *ngIf="nombreTournois('NA') > 0"><a href="#" [routerLink]="['/tournois/type/NA']">National A <span class="badge">{{ nombreTournois('NA') }}</span></a></li>
-              <li *ngIf="nombreTournois('NB') > 0"><a href="#" [routerLink]="['/tournois/type/NB']">National B <span class="badge">{{ nombreTournois("NB") }}</span></a></li>
-              <li *ngIf="nombreTournois('R') > 0"><a href="#"  [routerLink]="['/tournois/type/R']">Régional <span class="badge">{{ nombreTournois("R") }}</span></a></li>
-              <li *ngIf="nombreTournois('D') > 0"><a href="#"  [routerLink]="['/tournois/type/D']">Départemental <span class="badge">{{ nombreTournois("D") }}</span></a></li>
-              <li class="dropdown">
+              <li [routerLinkActive]="['active']"><a href="#" [routerLink]="['/tournois/tous']">Tous <span class="badge">{{ nombreTournois() }}</span><span class="sr-only">(current)</span></a></li>
+              <li [routerLinkActive]="['active']" *ngIf="nombreTournois('I') > 0"><a href="#"  [routerLink]="['/tournois/type/I']">International <span class="badge">{{ nombreTournois("I") }}</span></a></li>
+              <li [routerLinkActive]="['active']" *ngIf="nombreTournois('NA') > 0"><a href="#" [routerLink]="['/tournois/type/NA']">National A <span class="badge">{{ nombreTournois('NA') }}</span></a></li>
+              <li [routerLinkActive]="['active']" *ngIf="nombreTournois('NB') > 0"><a href="#" [routerLink]="['/tournois/type/NB']">National B <span class="badge">{{ nombreTournois("NB") }}</span></a></li>
+              <li [routerLinkActive]="['active']" *ngIf="nombreTournois('R') > 0"><a href="#"  [routerLink]="['/tournois/type/R']">Régional <span class="badge">{{ nombreTournois("R") }}</span></a></li>
+              <li [routerLinkActive]="['active']" *ngIf="nombreTournois('D') > 0"><a href="#"  [routerLink]="['/tournois/type/D']">Départemental <span class="badge">{{ nombreTournois("D") }}</span></a></li>
+              <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Autour de moi <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="#" [routerLink]="['/tournois/autour/10']">10 Km</a></li>
@@ -56,4 +56,3 @@
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
-

@@ -12,7 +12,7 @@ import { InscritsComponent } from './inscrits/inscrits.component';
 
 const appRoutes: Routes = [
   {
-    path: 'tournois',
+    path: 'tournois/tous',
     component: TournoisComponent,
     // data: { title: 'Tous les tournois' }
   },
@@ -29,7 +29,7 @@ const appRoutes: Routes = [
     component: TournoiComponent,
   },
   { path: '',
-    redirectTo: '/tournois',
+    redirectTo: '/tournois/tous',
     pathMatch: 'full'
   }
 ];
