@@ -29,19 +29,33 @@ export class TournoiComponent implements OnInit {
     this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
   }
 
-  nombreInscrits(tableau): number {
-    var n: number = 10000;
-    this.tournoiService.getInscrits(tableau._id).subscribe(i => n = i.length)
-    return n;
-  }
-
-  tableauComplet(tableau):boolean {
-    return this.nombreInscrits(tableau) >= tableau.nb_max ;
-  }
-
   heureDebut(tableau): string {
     var debut = new Date(tableau.date_debut);
     return debut.toLocaleString();
   }
 
+}
+
+@Component({
+  selector: 'app-nbinscrits',
+  template: `<span>{{ nombre_inscrits }}</span> <span *ngIf="isTableauComplet()" class="label label-danger">complet</span>`,
+  styleUrls: []
+})
+export class NbInscritsComponent implements OnInit {
+  constructor(private tournoiService: TournoiService) { }
+    @Input() tableau: Tableau;
+    nombre_inscrits: number;
+
+    ngOnInit() {
+      this.getNombreInscrits(this.tableau);
+    }
+
+    getNombreInscrits(tableau): void {
+      this.tournoiService.getInscrits(tableau._id).subscribe(i => this.nombre_inscrits = i.length)
+    }
+
+    isTableauComplet():boolean {
+      return this.nombre_inscrits >= this.tableau.nb_max ;
+    }
+  
 }

@@ -24,7 +24,7 @@
               <td>{{ heureDebut(tableau) }}</td>
               <td>{{ tableau.nom }}</td>
               <td>{{ tableau.description }}</td>
-              <td>{{ nombreInscrits(tableau) }} <span *ngIf="tableauComplet(tableau)" class="label label-danger">complet</span></td>
+              <td><app-nbinscrits [tableau] = "tableau"></app-nbinscrits></td>
               <td><i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></td>
           </tr>
           <tr class="collapse" id="accordion_{{i}}">

@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TournoisComponent } from './tournois/tournois.component';
-import { TournoiComponent } from './tournoi/tournoi.component';
+import { TournoiComponent, NbInscritsComponent } from './tournoi/tournoi.component';
 
 import {TournoiService} from './tournoi.service';
 import { InscritsComponent } from './inscrits/inscrits.component';
@@ -36,7 +36,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     TournoisComponent,
     TournoiComponent,
-    InscritsComponent
+    InscritsComponent,
+    NbInscritsComponent
   ],
   imports: [
     BrowserModule,
