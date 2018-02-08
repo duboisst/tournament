@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
   }
 
   nombreTournois(type: string):number {
-    if (type === undefined) {
+    if (type == "tous") {
       return this.tournois.length;
     }
     else {
