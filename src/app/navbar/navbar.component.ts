@@ -25,9 +25,7 @@ export class NavbarComponent implements OnInit {
       return this.tournois.length;
     }
     else {
-      return this.tournois.filter(function(element) {
-        return element.type == type;
-      }).length;
+      return this.tournois.filter(tournoi => tournoi.type == type).length;
     }
   }
 }
