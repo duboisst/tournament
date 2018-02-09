@@ -9,7 +9,8 @@
 
 <hr/>
 
-<div style="margin: auto; max-width: 1000px; margin-top:50px">
+<div class="container">
+  <h1 class="display-2">Tableaux</h1>
   <data-table id="films-grid"
       headerTitle="Tableaux"
       [items]="tableaux"
@@ -19,6 +20,8 @@
       [pagination]="false"
       [header]="false"
       [indexColumn]="false"
+      [showReloading]="false"
+
       [sortBy]="'nom'"
       [sortAsc]="false"
 
@@ -40,11 +43,6 @@
           [sortable]="true">
       </data-table-column>
   </data-table>
-  <div style="margin-top: 10px">
-      <b>Selected:</b>
-      <span *ngIf="tableauxTable.selectedRow == null"><i>Pas de tableau sélectionné</i></span>
-      <span [textContent]="tableauxTable.selectedRow && tableauxTable.selectedRow.item.nom"></span>
-  </div>
 </div>
 
 
