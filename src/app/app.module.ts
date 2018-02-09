@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TournoisComponent } from './tournois/tournois.component';
 import { TournoiComponent, NbInscritsComponent } from './tournoi/tournoi.component';
+import { DataTableModule } from 'angular5-data-table';
 
 import {TournoiService} from './tournoi.service';
 import { InscritsComponent } from './inscrits/inscrits.component';
@@ -57,7 +58,8 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
-    FormsModule
+    FormsModule,
+    DataTableModule
   ],
   providers: [TournoiService],
   bootstrap: [AppComponent]

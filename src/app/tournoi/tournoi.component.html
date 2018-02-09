@@ -7,6 +7,54 @@
   <hr class="my-4">
 </div>
 
+<hr/>
+
+<div style="margin: auto; max-width: 1000px; margin-top:50px">
+  <data-table id="films-grid"
+      headerTitle="Tableaux"
+      [items]="tableaux"
+      [itemCount]="tableauCount"
+      (reload)="reloadTableaux($event)"
+
+      [pagination]="false"
+      [header]="false"
+      [indexColumn]="false"
+      [sortBy]="'nom'"
+      [sortAsc]="false"
+
+      [substituteRows]="false"
+      [expandableRows]="true"
+      [translations]="translations"
+      >
+      <ng-template #dataTableExpand let-item="item">
+          <div [textContent]="item.description" style="padding: 5px; color: gray"></div>
+      </ng-template>
+      <data-table-column
+          [property]="'date_debut'"
+          [header]="'Date/Heure'"
+          [sortable]="true">
+      </data-table-column>
+      <data-table-column
+          [property]="'nom'"
+          [header]="'Nom'"
+          [sortable]="true">
+      </data-table-column>
+  </data-table>
+  <div style="margin-top: 10px">
+      <b>Selected:</b>
+      <span *ngIf="tableauxTable.selectedRow == null"><i>Pas de tableau sélectionné</i></span>
+      <span [textContent]="tableauxTable.selectedRow && tableauxTable.selectedRow.item.nom"></span>
+  </div>
+</div>
+
+
+
+
+
+
+
+<hr/>
+
 <div class="container">
   <h1 class="display-2">Tableaux</h1>
   <table class="table table-striped table-hover">

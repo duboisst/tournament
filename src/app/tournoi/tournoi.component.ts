@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DataTable, DataTableTranslations, DataTableResource } from 'angular5-data-table';
 
 import { Tournoi } from '../tournoi';
 import { Tableau } from '../tableau';
@@ -13,12 +14,25 @@ import { TournoiService } from '../tournoi.service';
 export class TournoiComponent implements OnInit {
   tournoi: Tournoi;
   tableaux: Tableau[];
+  tableauxResource: any;
 
-  constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { }
+  tableauCount = 0;
+
+  @ViewChild(DataTable) tableauxTable;
+
+  constructor(private tournoiService: TournoiService, private route: ActivatedRoute) {
+
+   }
+
+  reloadTableaux(params) {
+    this.tableauxResource.query(params).then(tableaux => this.tableaux = tableaux.map(t => JSON.parse(t)));
+  }
 
   ngOnInit() {
     this.getTournoi(this.route.snapshot.params['id']);
     this.getTableaux(this.route.snapshot.params['id']);
+    this.tableauxResource = new DataTableResource(this.tableaux.map(x => JSON.stringify(x)));
+    this.tableauxResource.count().then(count => this.tableauCount = count);
   }
 
   getTournoi(id): void {
@@ -34,6 +48,13 @@ export class TournoiComponent implements OnInit {
     return debut.toLocaleString();
   }
 
+  translations = <DataTableTranslations>{
+    indexColumn: 'Index column',
+    expandColumn: 'Expand column',
+    selectColumn: 'Select column',
+    paginationLimit: 'Max results',
+    paginationRange: 'Result range'
+  };
 }
 
 @Component({
