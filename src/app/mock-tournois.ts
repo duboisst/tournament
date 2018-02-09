@@ -7,29 +7,30 @@ export const TOURNOIS: Tournoi[] = [
     new Tournoi("2","Cognac 2018",new Date("05/09/2018"), new Date("05/13/2018"),"I", "blilia")
 ];
 
+
 export const TABLEAUX: Tableau[] = [
-    new Tableau("1", "2", "Tableau A", "de 500 à 999 points", 500, 999, new Date("05/10/2018 10:00"), 48),
-    new Tableau("2", "2", "Tableau B", "de 1300 à N°300", 1300, 2250, new Date("05/10/2018 11:00"), 48),
-    new Tableau("3", "1", "A", "de 500 à 1299 points", 500, 1299, new Date("05/18/2019 09:00"), 96),
-    new Tableau("4", "1", "B", "de 500 à Nom numéroté", 500, 2050, new Date("05/18/2018 10:00"), 6),
-    new Tableau("5", "1", "C", "Toutes catégories", 500, 2050, new Date("05/18/2018 10:00"), 6),
-    new Tableau("6", "1", "D", "de 500 à N°500", 500, 2050, new Date("05/18/2018 10:00"), 6),
-    new Tableau("7", "1", "E", "Double 3000", 500, 2050, new Date("05/18/2018 10:00"), 6),
-    new Tableau("8", "1", "F", "Double 4000", 500, 2050, new Date("05/18/2018 10:00"), 6),
-    new Tableau("9", "1", "G", "de 1400 à N°300", 500, 2050, new Date("05/18/2018 10:00"), 6),
-    new Tableau("10", "1", "H", "de 500 à 1799", 500, 2050, new Date("05/18/2018 10:00"), 6),
-    new Tableau("11", "1", "I", "de 500 à 1599", 500, 2050, new Date("05/18/2018 10:00"), 6),
-    new Tableau("12", "1", "J", "de 500 à 799", 500, 2050, new Date("05/18/2018 10:00"), 6),
+    {_id: "1", tournoi_id: "2", nom: "Tableau A", description: "de 500 à 999 points", cl_min: 500, cl_max: 999, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "2", tournoi_id: "2", nom: "Tableau B", description: "de 500 à 1399 points", cl_min: 500, cl_max: 1399, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "3", tournoi_id: "1", nom: "A", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/22/2018 5:52"), nb_max:48},
+    {_id: "4", tournoi_id: "1", nom: "B", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "5", tournoi_id: "1", nom: "C", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "6", tournoi_id: "1", nom: "D", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "7", tournoi_id: "1", nom: "E", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "8", tournoi_id: "1", nom: "F", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "9", tournoi_id: "1", nom: "G", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "10", tournoi_id: "1", nom: "H", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "11", tournoi_id: "1", nom: "I", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
+    {_id: "12", tournoi_id: "1", nom: "J", description: "de 500 à 1799 points", cl_min: 500, cl_max: 1799, date_debut: new Date("05/10/2018 10:00"), nb_max:48},
 ];
 
 export const JOUEURS: Joueur[] = [
-    new Joueur("1", "3339022", "Stéphane", "Dubois", "CAM Bordeaux", 940, "V1"),
-    new Joueur("2", "3338295", "Arthur", "Dubois", "CAM Bordeaux", 950, "B1"),
-    new Joueur("3", "3338066", "Léo", "Dubois", "CAM Bordeaux", 1384, "C2"),
-    new Joueur("4", "3338173", "Cyril", "Klein", "CAM Bordeaux", 1090, "V1"),
-    new Joueur("5", "3338173", "Hugo", "Klein", "CAM Bordeaux", 1867, "J2"),
-    new Joueur("6", "3335924", "Thomas", "Taillade", "SA Mérignac", 1527, "C2"),
-    new Joueur("7", "3336028", "Pierre", "Carrat", "US Talence", 1206, "C2")
+    {_id:"1", licence:"3339022", prenom:"Stéphane", nom:"Dubois", club:"CAM Bordeaux", classement:940, categorie:"V1"},
+    {_id:"2", licence:"3338295", prenom:"Arthur", nom:"Dubois", club:"CAM Bordeaux", classement:950, categorie:"B1"},
+    {_id:"3", licence:"3338066", prenom:"Léo", nom:"Dubois", club:"CAM Bordeaux", classement:1384, categorie:"C2"},
+    {_id:"4", licence:"3338173", prenom:"Cyril", nom:"Klein", club:"CAM Bordeaux", classement:1090, categorie:"V1"},
+    {_id:"5", licence:"3338173", prenom:"Hugo", nom:"Klein", club:"CAM Bordeaux", classement:1867, categorie:"J2"},
+    {_id:"6", licence:"3335924", prenom:"Thomas", nom:"Taillade", club:"SA Mérignac", classement:1527, categorie:"C2"},
+    {_id:"7", licence:"3336028", prenom:"Pierre", nom:"Carrat", club:"US Talence", classement:1206, categorie:"C2"}
 ];
 
 export const INSCRITS = [

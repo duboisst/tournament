@@ -13,7 +13,7 @@ import { TournoiService } from '../tournoi.service';
 })
 export class TournoiComponent implements OnInit {
   tournoi: Tournoi;
-  tableaux: Tableau[];
+  tableaux: any[];
   tableauxResource: any;
 
   tableauCount = 0;
@@ -24,28 +24,43 @@ export class TournoiComponent implements OnInit {
 
    }
 
-  reloadTableaux(params) {
-    this.tableauxResource.query(params).then(tableaux => this.tableaux = tableaux.map(t => JSON.parse(t)));
-  }
-
   ngOnInit() {
     this.getTournoi(this.route.snapshot.params['id']);
-    this.getTableaux(this.route.snapshot.params['id']);
-    this.tableauxResource = new DataTableResource(this.tableaux.map(x => JSON.stringify(x)));
-    this.tableauxResource.count().then(count => this.tableauCount = count);
   }
 
   getTournoi(id): void {
-    this.tournoiService.getTournoi(id).subscribe(tournoi => this.tournoi = tournoi);
+    this.tournoiService.getTournoi(id).subscribe(tournoi => {
+      this.tournoi = tournoi
+      this.getTableaux(this.route.snapshot.params['id']);
+    });
   }
 
   getTableaux(tournoi_id): void {
-    this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
+    this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => {
+      this.tableaux = this.display_tableaux(tableaux);
+      this.tableauxResource = new DataTableResource(this.tableaux);
+      this.tableauxResource.count().then(count => this.tableauCount = count);
+    });
   }
 
-  heureDebut(tableau): string {
-    var debut = new Date(tableau.date_debut);
-    return debut.toLocaleString();
+  // Cette fonction ajoute des propriétés calculées au tableau
+  private display_tableaux(tableaux): any[] {
+    return  tableaux.map(t => {
+      t['date_heure'] = t.date_debut.toLocaleDateString();
+      this.getNombreInscrits(t);
+      return t
+    })
+  }
+
+  private getNombreInscrits(tableau): void {
+    this.tournoiService.getInscrits(tableau._id).subscribe(i => {
+      tableau['nombre_inscrits'] = i.length;
+      tableau['complet'] = i.length >= tableau.nb_max;
+    })
+  }
+
+  reloadTableaux(params) {
+    this.tableauxResource.query(params).then(tableaux => this.tableaux = tableaux);
   }
 
   translations = <DataTableTranslations>{
@@ -80,3 +95,4 @@ export class NbInscritsComponent implements OnInit {
     }
   
 }
+

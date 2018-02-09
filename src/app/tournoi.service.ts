@@ -34,7 +34,9 @@ export class TournoiService {
   }
 
   getTableaux(tournoi_id): Observable<Tableau[]> {
-    var t: Tableau[] = TABLEAUX.filter(element => {return element.tournoi_id == tournoi_id;});
+    var t = TABLEAUX.filter(element => {
+      return element.tournoi_id == tournoi_id;
+    });
     return of(t);
   }
 
