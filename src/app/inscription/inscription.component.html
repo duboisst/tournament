@@ -1,0 +1,27 @@
+<div class="container">
+    <h1>{{tournoi.nom}}</h1>
+    <h2>Tournoi {{tournoi.nom_type}}</h2>
+    <hr class="my-4">
+    <p class="lead">{{tournoi.description}}</p>
+    <hr class="my-4">
+    <h3>{{tournoi.duAu()}}</h3>
+    <h1>Inscription de {{joueur.prenom}} {{joueur.nom}} - {{classement}}</h1>  
+
+
+    <h1 class="display-2">Tableaux</h1>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">Date/Heure</div>
+        <div class="col-md-3">Nom</div>
+        <div class="col-md-3">Description</div>
+        <div class="col-md-2">Nombre d'inscrits</div>
+    </div>
+    <div class="row" *ngFor="let tableau of tableaux">
+          <app-inscription-tableau [tableau]="tableau" [joueur]="joueur"></app-inscription-tableau>
+    </div>
+    <br/>
+    <button type="button" class="btn btn-danger btn-lg pull-right" (click)="saveInscription()">Valider mon inscription</button>
+  </div>
+      
+      

@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import {Ng2Webstorage} from 'ngx-webstorage';
+import { HttpClientModule }    from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -10,6 +12,7 @@ import { TournoiComponent, NbInscritsComponent } from './tournoi/tournoi.compone
 
 import {TournoiService} from './tournoi.service';
 import { InscritsComponent } from './inscrits/inscrits.component';
+import { InscriptionComponent, InscriptionTableauComponent } from './inscription/inscription.component';
 
 const appRoutes: Routes = [
   {
@@ -36,6 +39,10 @@ const appRoutes: Routes = [
     path: 'tournoi/:id',
     component: TournoiComponent,
   },
+  {
+    path: 'tournoi/:id/inscription',
+    component: InscriptionComponent,
+  },
   { path: '',
     redirectTo: '/tournois/tous',
     pathMatch: 'full'
@@ -50,6 +57,8 @@ const appRoutes: Routes = [
     TournoiComponent,
     InscritsComponent,
     NbInscritsComponent,
+    InscriptionComponent,
+    InscriptionTableauComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +66,9 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    Ng2Webstorage
   ],
   providers: [TournoiService],
   bootstrap: [AppComponent]

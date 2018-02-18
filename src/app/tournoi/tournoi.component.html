@@ -1,6 +1,10 @@
 <div class="container">
   <h1>{{tournoi.nom}}</h1>
-  <h3>{{tournoi.duAu()}}</h3>
+  <div class="row">
+      <div class="col-md-8"><h3>{{tournoi.duAu()}}</h3></div>
+      <div class="col-md-4"> <button type="button" class="btn btn-success btn-lg" [routerLink]="['/tournoi', tournoi._id, 'inscription']">Je m'inscris</button></div>
+  </div>
+  
   <h2>Tournoi {{tournoi.nom_type}}</h2>
   <hr class="my-4">
   <p class="lead">{{tournoi.description}}</p>
@@ -29,7 +33,7 @@
           </tr>
           <tr class="collapse" id="accordion_{{i}}">
             <td colspan="5">
-              <app-inscrits [tableau]="tableau" [i]="i"></app-inscrits>
+              <app-inscrits [tableau]="tableau"></app-inscrits>
             </td>
           </tr>
       </ng-container>
