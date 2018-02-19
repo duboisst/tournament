@@ -12,10 +12,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let tournoi of tournois" role="button" [routerLink]="['/tournoi/', tournoi._id]">
-          <td>{{ tournoi.dateDebut() }}</td>
+          <td>{{ tournoi.dateDebut }}</td>
           <td>{{ tournoi.nom }}</td>
-          <td>{{ tournoi.jours() }}</td>
-          <td><span class="label {{ tournoi.labelClass() }}">{{ tournoi.nom_type }}</span></td>
+          <td>{{ tournoi.jours }}</td>
+          <td><span class="label {{ tournoi.labelClass }}">{{ tournoi.nom_type }}</span></td>
         </tr>
       </tbody>
     </table>

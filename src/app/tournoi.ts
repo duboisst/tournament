@@ -30,7 +30,7 @@ export class Tournoi {
         } 
     }
 
-    duAu(): string {
+    get duAu(): string {
         var s: string;
         var optionsD = {weekday: "long", month: "long", day: "numeric"};
         var optionsF = {weekday: "long", year: "numeric", month: "long", day: "numeric"};        
@@ -43,11 +43,11 @@ export class Tournoi {
         return s;
     }
 
-    dateDebut(): string {
+    get dateDebut(): string {
         return this.date_debut.toLocaleDateString();
       }
     
-    jours(): string {
+    get jours(): string {
         var debut = new Date(this.date_debut);
         var jours = [];
         for (var d = debut; d <= this.date_fin; d.setDate(d.getDate() + 1)) {
@@ -56,20 +56,7 @@ export class Tournoi {
         return jours.join(" - ");
     }
     
-    private weekday(n): string {
-        var weekday = new Array(7);
-        weekday[0] =  "Dimanche";
-        weekday[1] = "Lundi";
-        weekday[2] = "Mardi";
-        weekday[3] = "Mercredi";
-        weekday[4] = "Jeudi";
-        weekday[5] = "Vendredi";
-        weekday[6] = "Samedi";
-        
-        return weekday[n];
-    }    
-
-    labelClass():string {
+    get labelClass():string {
         switch(this.type) { 
           case 'I': { 
             return 'label-danger';
@@ -91,4 +78,19 @@ export class Tournoi {
           } 
         } 
     }
-  }
+
+    private weekday(n): string {
+        var weekday = new Array(7);
+        weekday[0] =  "Dimanche";
+        weekday[1] = "Lundi";
+        weekday[2] = "Mardi";
+        weekday[3] = "Mercredi";
+        weekday[4] = "Jeudi";
+        weekday[5] = "Vendredi";
+        weekday[6] = "Samedi";
+        
+        return weekday[n];
+    }    
+
+
+}

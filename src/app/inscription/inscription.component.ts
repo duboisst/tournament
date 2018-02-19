@@ -14,15 +14,12 @@ import { TournoiService } from '../tournoi.service';
 })
 export class InscriptionComponent implements OnInit {
   // TODO: implémenter système d'authentification
-  joueur: Joueur = new Joueur("1", "3339022", "Stéphane", "Dubois", "CAM Bordeaux", 940, "V1");
+  joueur: Joueur = new Joueur("1", "3339022", "Stéphane", "Dubois", "M", "CAM Bordeaux", 940, 26547, "V1");
   
   tournoi: Tournoi;
   tableaux: Tableau[];
   options: any[] = [];
   
-  //TODO : implémenter méthode qui permet de récupérer le classement en points ou en numéro
-  classement = this.joueur.classement + " points";
-
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit() {
@@ -118,8 +115,8 @@ export class InscriptionTableauComponent implements OnInit {
       // - le classement du joueur est supérieur au classement maximum autorisé OU
       // - le tableau est complet ET le joueur n'est pas encore inscrit
       return (
-        this.joueur.classement < this.option.tableau.cl_min || 
-        this.joueur.classement > this.option.tableau.cl_max || 
+        this.joueur.points < this.option.tableau.cl_min || 
+        this.joueur.points > this.option.tableau.cl_max || 
         (this.isTableauComplet() && this.inscrits.findIndex(i => i._id == this.joueur._id) == -1)
       )
     }

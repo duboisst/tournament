@@ -15,13 +15,15 @@ export const TABLEAUX: Tableau[] = [
 ];
 
 export const JOUEURS: Joueur[] = [
-    new Joueur("1", "3339022", "Stéphane", "Dubois", "CAM Bordeaux", 940, "V1"),
-    new Joueur("2", "3338295", "Arthur", "Dubois", "CAM Bordeaux", 950, "B1"),
-    new Joueur("3", "3338066", "Léo", "Dubois", "CAM Bordeaux", 1384, "C2"),
-    new Joueur("4", "3338173", "Cyril", "Klein", "CAM Bordeaux", 1090, "V1"),
-    new Joueur("5", "3338173", "Hugo", "Klein", "CAM Bordeaux", 1867, "J2"),
-    new Joueur("6", "3335924", "Thomas", "Taillade", "SA Mérignac", 1527, "C2"),
-    new Joueur("7", "3336028", "Pierre", "Carrat", "US Talence", 1206, "C2")
+    new Joueur("1", "3339022", "Stéphane", "Dubois", "M", "CAM Bordeaux", 940, 26547, "V1"),
+    new Joueur("2", "3338295", "Arthur", "Dubois", "M", "CAM Bordeaux", 950, 24912, "B1"),
+    new Joueur("3", "3338066", "Léo", "Dubois", "M", "CAM Bordeaux", 1384, 9009, "C2"),
+    new Joueur("4", "3338173", "Cyril", "Klein", "M", "CAM Bordeaux", 1090, 20621, "V1"),
+    new Joueur("5", "3338173", "Hugo", "Klein", "M", "CAM Bordeaux", 1867, 1726, "J2"),
+    new Joueur("6", "3335924", "Thomas", "Taillade", "M", "SA Mérignac", 1527, 5344, "C2"),
+    new Joueur("7", "3336028", "Pierre", "Carrat", "M", "US Talence", 1206, 14568, "C2"),
+    new Joueur("8", "3332154", "Arnaud", "Gireau", "M", "CAM Bordeaux", 2193, 570, "J3"),
+    new Joueur("9", "244431", "Sarah", "Fonvielle", "F", "CAM Bordeaux", 1719, 187, "S"),
 ];
 
 export const INSCRITS = [
@@ -37,5 +39,7 @@ export const INSCRITS = [
     {"tableau_id": 3, "joueur": JOUEURS.find(j => {return j._id == "4";})},
     {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "5";})},
     {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "6";})},
-    {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "3";})}
+    {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "3";})},
+    {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "8";})},
+    {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "9";})},
 ]
