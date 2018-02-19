@@ -21,7 +21,6 @@ export class Joueur {
             c = "N°" + this.numero
         else
             c = this.points + " points";
-        console.log("%s %s classement: %s", this.prenom, this.nom, c)
         return c
     }
   
