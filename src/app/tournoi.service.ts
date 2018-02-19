@@ -52,6 +52,11 @@ export class TournoiService {
   }
 
   saveInscription (tableaux_ids: any[], joueur: Joueur): Observable<any> {
+    while (INSCRITS.findIndex(i => i.joueur._id == joueur._id) != -1)
+      INSCRITS.splice(INSCRITS.findIndex(i => i.joueur._id == joueur._id), 1);
+    tableaux_ids.forEach(id=>
+      INSCRITS.push({"tableau_id": id, "joueur": joueur})
+    );
     return this.http.put(this.tournoiUrl, joueur, httpOptions).pipe(
       tap(_ => this.log(`updated joueur id=${joueur._id}`)),
       catchError(this.handleError<any>('updateHero'))
