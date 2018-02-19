@@ -33,7 +33,13 @@ export class InscriptionComponent implements OnInit {
 
   getTableaux(tournoi_id): void {
     this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => {
-      this.tableaux = tableaux
+      this.tableaux = tableaux.sort(function(a, b) {
+        if (a.date_heure_debut.getTime() > b.date_heure_debut.getTime()) return 1;
+        if (a.date_heure_debut.getTime() < b.date_heure_debut.getTime()) return -1;
+        if (a.nom > b.nom) return 1;
+        if (a.nom < b.nom) return -1;
+        return 0;
+      });
       this.tableaux.forEach(t => {
         this.getInscrits(t);
       });
@@ -48,6 +54,18 @@ export class InscriptionComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  get jours() {
+    return this.tournoi.nb_tableaux_max_par_jour.sort(function(a, b) {
+      if (a.jour > b.jour) return 1;
+      if (a.jour < b.jour) return -1;
+      return 0;
+    }).map(element=>element.jour);
+  }
+
+  optionsJour(jour: Date) {
+    return this.options.filter(opt => opt.tableau.date_debut.getTime() == jour.getTime());
   }
 
   get selectedOptions() {

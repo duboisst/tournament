@@ -21,7 +21,8 @@ export class Tableau {
 
     get heureDebut(): string {
         var debut = new Date(this.date_heure_debut);
-        return debut.toLocaleString();
+        return ("0" + debut.getHours()).slice(-2) + "h" + ("0" + debut.getMinutes()).slice(-2);
+        
       }
     
 }

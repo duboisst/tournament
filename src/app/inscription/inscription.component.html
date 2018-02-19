@@ -11,26 +11,29 @@
     <h2 class="display-2">Tableaux</h2>
 
     <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Date/Heure</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Nombre d'inscrits</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let option of options">
-                <td><app-inscription-tableau [joueur]="joueur" [option]="option" [options]="options || []"></app-inscription-tableau></td>  
-                <td>{{ option.tableau.heureDebut }}</td>
-                <td>{{ option.tableau.nom }}</td>
-                <td>{{ option.tableau.description }}</td>
-                <td>{{ option.tableau.tarif }} €</td>
-                <td><app-nbinscrits [tableau] = "option.tableau"></app-nbinscrits></td>
-            </tr>
-        </tbody>
+        <ng-container *ngFor="let jour of jours">
+            <thead>
+                <tr><td colspan="6">{{jour.toLocaleDateString()}}</td></tr>
+                <tr>
+                    <th></th>
+                    <th>Date/Heure</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Nombre d'inscrits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let option of optionsJour(jour)">
+                    <td><app-inscription-tableau [joueur]="joueur" [option]="option" [options]="options || []"></app-inscription-tableau></td>  
+                    <td>{{ option.tableau.heureDebut }}</td>
+                    <td>{{ option.tableau.nom }}</td>
+                    <td>{{ option.tableau.description }}</td>
+                    <td>{{ option.tableau.tarif }} €</td>
+                    <td><app-nbinscrits [tableau] = "option.tableau"></app-nbinscrits></td>
+                </tr>
+            </tbody>
+        </ng-container>
     </table>
 
     <hr class="my-4" />

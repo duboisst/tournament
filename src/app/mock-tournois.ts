@@ -21,10 +21,10 @@ export const TABLEAUX: Tableau[] = [
     new Tableau("7", "2", "Tableau E", "de 500 à 1599", min_classement, 1599, max_numero, toutes_categories, tous_sexes, new Date("05/10/2018 14:00"), 48, 8, []),
     new Tableau("8", "2", "Tableau F", "de 500 à 1399", min_classement, 1399, max_numero, toutes_categories, tous_sexes, new Date("05/10/2018 15:00"), 48, 8, ['11', '13']),
     new Tableau("9", "2", "Tableau G", "Vétérans", min_classement, max_classement, max_numero, ["V1", "V2", "V3", "V4", "V5", "V6"], tous_sexes, new Date("05/10/2018 16:00"), 48, 7, []),
-    new Tableau("10", "2", "Tableau H", "Toutes séries", min_classement, 10000, max_numero, toutes_categories, tous_sexes, new Date("05/11/2018 15:00"), 96, 10, []),
+    new Tableau("10", "2", "Tableau L", "Toutes séries", min_classement, 10000, max_numero, toutes_categories, tous_sexes, new Date("05/11/2018 15:00"), 96, 10, []),
     new Tableau("11", "2", "Tableau I", "Poussins / Benjamins", min_classement, max_classement, max_numero, ['P', 'B1', 'B2'], tous_sexes, new Date("05/10/2018 18:00"), 24, 5, ['13', '8']),
-    new Tableau("13", "2", "Tableau K", "Minimes / Cadets", min_classement, max_classement, max_numero, ['P', 'B1', 'B2', 'M1', 'M2', 'C1', 'C2'], tous_sexes, new Date("05/10/2018 18:00"), 24, 5, ['11', '8']),
-    new Tableau("12", "2", "Tableau J", "Toutes séries dames", min_classement, max_classement, max_numero, toutes_categories, ['F'], new Date("05/11/2018 14:00"), 96, 8, []),    
+    new Tableau("13", "2", "Tableau J", "Minimes / Cadets", min_classement, max_classement, max_numero, ['P', 'B1', 'B2', 'M1', 'M2', 'C1', 'C2'], tous_sexes, new Date("05/10/2018 18:00"), 24, 5, ['11', '8']),
+    new Tableau("12", "2", "Tableau K", "Toutes séries dames", min_classement, max_classement, max_numero, toutes_categories, ['F'], new Date("05/11/2018 14:00"), 96, 8, []),    
     new Tableau("3", "1", "Tableau A", "de 500 à 1299 points", min_classement, 1299, max_numero, toutes_categories, tous_sexes, new Date("05/18/2019 09:00"), 96, 7, []),
     new Tableau("4", "1", "Tableau B", "de 500 à Non numéroté", min_classement, max_classement, 1001, toutes_categories, tous_sexes, new Date("05/18/2019 10:00"), 6, 7, []),
     new Tableau("14", "1", "Tableau C", "de 500 à 1599", min_classement, 1599, max_numero, toutes_categories, tous_sexes, new Date("05/18/2019 11:00"), 6, 7, [])

@@ -29,6 +29,18 @@ export class TournoiComponent implements OnInit {
     this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
   }
 
+  get jours() {
+    return this.tournoi.nb_tableaux_max_par_jour.sort(function(a, b) {
+      if (a.jour > b.jour) return 1;
+      if (a.jour < b.jour) return -1;
+      return 0;
+    }).map(element=>element.jour);
+  }
+
+  tableauxJour(jour: Date) {
+    return this.tableaux.filter(t => t.date_debut.getTime() == jour.getTime());
+  }
+
 }
 
 @Component({
@@ -52,5 +64,5 @@ export class NbInscritsComponent implements OnInit {
     isTableauComplet():boolean {
       return this.nombre_inscrits >= this.tableau.nb_max ;
     }
-  
+
 }
