@@ -17,7 +17,6 @@ export class Joueur {
             limit = 1000
         else
             limit = 300;
-        console.log("%s %s limit: %s", this.prenom, this.nom, limit)
         if (this.numero <= limit)
             c = "N°" + this.numero
         else
