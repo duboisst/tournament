@@ -25,7 +25,7 @@
     <tbody>
       <ng-container *ngFor="let tableau of tableaux let i=index">
           <tr class="accordion-toggle" role="button" data-toggle="collapse" [attr.data-target]="'#accordion_' + [i]">
-              <td>{{ heureDebut(tableau) }}</td>
+              <td>{{ tableau.heureDebut }}</td>
               <td>{{ tableau.nom }}</td>
               <td>{{ tableau.description }}</td>
               <td><app-nbinscrits [tableau] = "tableau"></app-nbinscrits></td>

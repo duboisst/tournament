@@ -49,11 +49,6 @@ export class InscriptionComponent implements OnInit {
     })
   }
 
-  heureDebut(tableau): string {
-    var debut = new Date(tableau.date_debut);
-    return debut.toLocaleString();
-  }
-
   goBack(): void {
     this.location.back();
   }
@@ -64,8 +59,18 @@ export class InscriptionComponent implements OnInit {
       .map(opt => opt.value)
   }
 
+  get nbTableaux() {
+    return this.options
+    .filter(opt => opt.checked).length
+  }
+
+  get prixTotal() {
+    return this.nbTableaux > 0 ?
+            this.options.filter(opt => opt.checked).map(opt => opt.tableau.tarif).reduce(function(a,v) {return a+v}) :
+            0
+  }
+
   saveInscription():void {
-    alert('tableaux choisis :' + this.selectedOptions.join());
     this.tournoiService.saveInscription(this.selectedOptions, this.joueur).subscribe(() => {
       this.goBack();
     })

@@ -8,10 +8,10 @@ export const TOURNOIS: Tournoi[] = [
 ];
 
 export const TABLEAUX: Tableau[] = [
-    new Tableau("1", "2", "Tableau A", "de 500 à 999 points", 500, 999, new Date("05/10/2018 10:00"), 48),
-    new Tableau("2", "2", "Tableau B", "de 1300 à N°300", 1300, 2250, new Date("05/10/2018 11:00"), 48),
-    new Tableau("3", "1", "Tableau A", "de 500 à 1299 points", 500, 1299, new Date("05/18/2019 09:00"), 96),
-    new Tableau("4", "1", "Tableau B", "de 500 à Non numéroté", 500, 2050, new Date("05/18/2018 10:00"), 6)
+    new Tableau("1", "2", "Tableau A", "de 500 à 999 points", 500, 999, new Date("05/10/2018 10:00"), 48, 6),
+    new Tableau("2", "2", "Tableau B", "de 1300 à N°300", 1300, 2250, new Date("05/10/2018 11:00"), 48, 8),
+    new Tableau("3", "1", "Tableau A", "de 500 à 1299 points", 500, 1299, new Date("05/18/2019 09:00"), 96, 7),
+    new Tableau("4", "1", "Tableau B", "de 500 à Non numéroté", 500, 2050, new Date("05/18/2018 10:00"), 6, 7)
 ];
 
 export const JOUEURS: Joueur[] = [

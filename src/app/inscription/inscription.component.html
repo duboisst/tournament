@@ -1,9 +1,9 @@
 <div class="container">
     <h1>{{tournoi.nom}}</h1>
     <h2>Tournoi {{tournoi.nom_type}}</h2>
-    <hr class="my-4">
+    <hr class="my-4" />
     <p class="lead">{{tournoi.description}}</p>
-    <hr class="my-4">
+    <hr class="my-4" />
     <h3>{{tournoi.duAu()}}</h3>
     <h1>Inscription de {{joueur.prenom}} {{joueur.nom}} - {{classement}}</h1>  
 
@@ -17,19 +17,27 @@
                 <th>Date/Heure</th>
                 <th>Nom</th>
                 <th>Description</th>
+                <th>Prix</th>
                 <th>Nombre d'inscrits</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let option of options">
                 <td><app-inscription-tableau [joueur]="joueur" [option]="option"></app-inscription-tableau></td>  
-                <td>{{ heureDebut(option.tableau) }}</td>
+                <td>{{ option.tableau.heureDebut }}</td>
                 <td>{{ option.tableau.nom }}</td>
                 <td>{{ option.tableau.description }}</td>
+                <td>{{ option.tableau.tarif }} €</td>
                 <td><app-nbinscrits [tableau] = "option.tableau"></app-nbinscrits></td>
             </tr>
         </tbody>
     </table>
+
+    <hr class="my-4" />
+    <strong><div class="row">
+        <div class="col-md-3">Nombre de tableaux choisis</div><div class="md-1">{{nbTableaux}}</div>
+        <div class="col-md-3">Total à payer</div><div class="md-1">{{prixTotal}} €</div>
+    </div></strong>
     <br/>
     <button type="button" class="btn btn-danger btn-lg pull-right" (click)="saveInscription()">Valider mon inscription</button>
   </div>

@@ -29,11 +29,6 @@ export class TournoiComponent implements OnInit {
     this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
   }
 
-  heureDebut(tableau): string {
-    var debut = new Date(tableau.date_debut);
-    return debut.toLocaleString();
-  }
-
 }
 
 @Component({

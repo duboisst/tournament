@@ -26,7 +26,4 @@ export class InscritsComponent implements OnInit {
     this.tournoiService.getInscrits(tableau._id).subscribe(inscrits => this.joueurs = inscrits)
   }
 
-  listeJoueurs(): string {
-    return this.joueurs.map(j => j.prenom).join()
-  }
 }
