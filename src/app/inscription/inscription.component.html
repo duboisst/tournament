@@ -10,16 +10,26 @@
 
     <h1 class="display-2">Tableaux</h1>
 
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-3">Date/Heure</div>
-        <div class="col-md-3">Nom</div>
-        <div class="col-md-3">Description</div>
-        <div class="col-md-2">Nombre d'inscrits</div>
-    </div>
-    <div class="row" *ngFor="let tableau of tableaux">
-          <app-inscription-tableau [tableau]="tableau" [joueur]="joueur"></app-inscription-tableau>
-    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Date/Heure</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Nombre d'inscrits</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let option of options">
+                <td><app-inscription-tableau [joueur]="joueur" [option]="option"></app-inscription-tableau></td>  
+                <td>{{ heureDebut(option.tableau) }}</td>
+                <td>{{ option.tableau.nom }}</td>
+                <td>{{ option.tableau.description }}</td>
+                <td><app-nbinscrits [tableau] = "option.tableau"></app-nbinscrits></td>
+            </tr>
+        </tbody>
+    </table>
     <br/>
     <button type="button" class="btn btn-danger btn-lg pull-right" (click)="saveInscription()">Valider mon inscription</button>
   </div>

@@ -35,7 +35,7 @@ export const INSCRITS = [
     {"tableau_id": 4, "joueur": JOUEURS.find(j => {return j._id == "6";})},
     {"tableau_id": 3, "joueur": JOUEURS.find(j => {return j._id == "2";})},
     {"tableau_id": 3, "joueur": JOUEURS.find(j => {return j._id == "4";})},
-    {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "1";})},
-    {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "2";})},
+    {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "5";})},
+    {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "6";})},
     {"tableau_id": 2, "joueur": JOUEURS.find(j => {return j._id == "3";})}
 ]

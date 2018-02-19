@@ -18,7 +18,8 @@ export class InscriptionComponent implements OnInit {
   
   tournoi: Tournoi;
   tableaux: Tableau[];
-
+  options: any[] = [];
+  
   //TODO : implémenter méthode qui permet de récupérer le classement en points ou en numéro
   classement = this.joueur.classement + " points";
 
@@ -34,16 +35,38 @@ export class InscriptionComponent implements OnInit {
   }
 
   getTableaux(tournoi_id): void {
-    this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
+    this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => {
+      this.tableaux = tableaux
+      this.tableaux.forEach(t => {
+        this.getInscrits(t);
+      });
+    });
+  }
+
+  getInscrits(tableau): void {
+    this.tournoiService.getInscrits(tableau._id).subscribe(i => {
+      this.options.push ({tableau: tableau, value: tableau._id, checked:i.findIndex(i => i._id == this.joueur._id) != -1});
+    })
+  }
+
+  heureDebut(tableau): string {
+    var debut = new Date(tableau.date_debut);
+    return debut.toLocaleString();
   }
 
   goBack(): void {
     this.location.back();
   }
 
+  get selectedOptions() {
+    return this.options
+      .filter(opt => opt.checked)
+      .map(opt => opt.value)
+  }
+
   saveInscription():void {
-    this.tournoiService.saveInscription([], this.joueur).subscribe(() => {
-      alert('sauvé');
+    alert('tableaux choisis :' + this.selectedOptions.join());
+    this.tournoiService.saveInscription(this.selectedOptions, this.joueur).subscribe(() => {
       this.goBack();
     })
   }
@@ -54,28 +77,22 @@ export class InscriptionComponent implements OnInit {
 @Component({
   selector: 'app-inscription-tableau',
   template: `
-  <div class="col-md-1"><input *ngIf="inscriptionPossible(tableau)" type="checkbox" [checked]="isInscrit()" /></div>  
-  <div class="col-md-3">{{ heureDebut(tableau) }}</div>
-  <div class="col-md-3">{{ tableau.nom }}</div>
-  <div class="col-md-3">{{ tableau.description }}</div>
-  <div class="col-md-2"><app-nbinscrits [tableau] = "tableau"></app-nbinscrits></div>`,
+  <input [disabled]="disabledCheckbox()" type="checkbox" name="options" value="{{option.value}}" [(ngModel)]="option.checked" />
+  `,
   styleUrls: []
 })
 export class InscriptionTableauComponent implements OnInit {
-  constructor(private tournoiService: TournoiService) { }
-    @Input() tableau: Tableau;
+  constructor(private tournoiService: TournoiService) { }  
+    @Input() option ;
     @Input() joueur: Joueur;
     nombre_inscrits: number;
     inscrits: Joueur[];
 
-    @Output('addTableauEvent') 
-	  addTableauId = new EventEmitter<string>();
-
     ngOnInit() {
-      this.getNombreInscrits(this.tableau);
+      this.getInscrits(this.option.tableau);
     }
 
-    getNombreInscrits(tableau): void {
+    getInscrits(tableau): void {
       this.tournoiService.getInscrits(tableau._id).subscribe(i => {
         this.nombre_inscrits = i.length;
         this.inscrits = i;
@@ -83,24 +100,23 @@ export class InscriptionTableauComponent implements OnInit {
     }
 
     isTableauComplet():boolean {
-      return this.nombre_inscrits >= this.tableau.nb_max ;
+      return this.nombre_inscrits >= this.option.tableau.nb_max ;
     }
 
-    heureDebut(): string {
-      var debut = new Date(this.tableau.date_debut);
-      return debut.toLocaleString();
-    }
- 
     inscriptionPossible():boolean {
-      return (this.joueur.classement >= this.tableau.cl_min && this.joueur.classement <= this.tableau.cl_max && !this.isTableauComplet())
+      return (this.joueur.classement >= this.option.tableau.cl_min && this.joueur.classement <= this.option.tableau.cl_max && !this.isTableauComplet())
     }
 
-    isInscrit(): boolean {
-      return this.inscrits.findIndex(i => i._id == this.joueur._id) != -1
+    disabledCheckbox():boolean {
+      // La checkbox est disabled si:
+      // - le classement du joueur est inférieur au classement minimum autorisé OU
+      // - le classement du joueur est supérieur au classement maximum autorisé OU
+      // - le tableau est complet ET le joueur n'est pas encore inscrit
+      return (
+        this.joueur.classement < this.option.tableau.cl_min || 
+        this.joueur.classement > this.option.tableau.cl_max || 
+        (this.isTableauComplet() && this.inscrits.findIndex(i => i._id == this.joueur._id) == -1)
+      )
     }
-
-    addTableau() {
-      this.addTableauId.emit(this.tableau._id);
-      }
 
 }
