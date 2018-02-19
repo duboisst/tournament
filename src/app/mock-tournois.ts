@@ -2,17 +2,16 @@ import { Tournoi } from './tournoi';
 import { Tableau } from './tableau';
 import { Joueur } from './joueur';
 
-export const TOURNOIS: Tournoi[] = [
-    new Tournoi("1","CAM Bordeaux 2019",new Date("05/18/2019"), new Date("05/18/2019"),"NB", "blabla", [{jour: new Date("05/18/2019"), nb:3}]), 
-    new Tournoi("2","Cognac 2018",new Date("05/09/2018"), new Date("05/13/2018"),"I", "blilia", [{jour: new Date("05/09/2018"), nb:2}, {jour: new Date("05/10/2018"), nb:3}, {jour: new Date("05/11/2018"), nb:1}, {jour: new Date("05/12/2018"), nb:3}, {jour: new Date("05/13/2018"), nb:2}])
-];
-
 const toutes_categories = ['B1', 'B2', 'M1', 'M2', 'C1', 'C2', 'J1', 'J2', 'J3', 'S', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6'];
 const tous_sexes = ['M', 'F'];
 const max_classement = 10000;
 const min_classement = 500;
 const max_numero = 0;
 
+export const TOURNOIS: Tournoi[] = [
+    new Tournoi("1","CAM Bordeaux 2019", "NB", "blabla", [{jour: new Date("05/18/2019"), nb:2}]), 
+    new Tournoi("2","Cognac 2018", "I", "lorem ipsum ...", [{jour: new Date("05/09/2018"), nb:2}, {jour: new Date("05/10/2018"), nb:3}, {jour: new Date("05/11/2018"), nb:1}, {jour: new Date("05/12/2018"), nb:3}, {jour: new Date("05/13/2018"), nb:2}])
+];
 
 export const TABLEAUX: Tableau[] = [
     new Tableau("1", "2", "Tableau A", "de 500 à 999 points", min_classement, 999, max_numero, toutes_categories, tous_sexes, new Date("05/10/2018 10:00"), 48, 6, []),
@@ -27,7 +26,8 @@ export const TABLEAUX: Tableau[] = [
     new Tableau("13", "2", "Tableau K", "Minimes / Cadets", min_classement, max_classement, max_numero, ['P', 'B1', 'B2', 'M1', 'M2', 'C1', 'C2'], tous_sexes, new Date("05/10/2018 18:00"), 24, 5, ['11', '8']),
     new Tableau("12", "2", "Tableau J", "Toutes séries dames", min_classement, max_classement, max_numero, toutes_categories, ['F'], new Date("05/11/2018 14:00"), 96, 8, []),    
     new Tableau("3", "1", "Tableau A", "de 500 à 1299 points", min_classement, 1299, max_numero, toutes_categories, tous_sexes, new Date("05/18/2019 09:00"), 96, 7, []),
-    new Tableau("4", "1", "Tableau B", "de 500 à Non numéroté", min_classement, max_classement, 1001, toutes_categories, tous_sexes, new Date("05/18/2018 10:00"), 6, 7, [])
+    new Tableau("4", "1", "Tableau B", "de 500 à Non numéroté", min_classement, max_classement, 1001, toutes_categories, tous_sexes, new Date("05/18/2019 10:00"), 6, 7, []),
+    new Tableau("14", "1", "Tableau C", "de 500 à 1599", min_classement, 1599, max_numero, toutes_categories, tous_sexes, new Date("05/18/2019 11:00"), 6, 7, [])
 ];
 
 export const JOUEURS: Joueur[] = [

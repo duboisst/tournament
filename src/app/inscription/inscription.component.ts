@@ -42,7 +42,7 @@ export class InscriptionComponent implements OnInit {
 
   getInscrits(tableau): void {
     this.tournoiService.getInscrits(tableau._id).subscribe(i => {
-      this.options.push ({tableau: tableau, value: tableau._id, checked:i.findIndex(i => i._id == this.joueur._id) != -1});
+      this.options.push ({tournoi: this.tournoi, tableau: tableau, value: tableau._id, checked:i.findIndex(i => i._id == this.joueur._id) != -1});
     })
   }
 
@@ -78,9 +78,7 @@ export class InscriptionComponent implements OnInit {
 
 @Component({
   selector: 'app-inscription-tableau',
-  template: `
-  <input [disabled]="disabledCheckbox()" type="checkbox" name="options" value="{{option.value}}" [(ngModel)]="option.checked" />
-  `,
+  template: `<input [disabled]="disabledCheckbox(option.checked)" type="checkbox" name="options" value="{{option.value}}" [(ngModel)]="option.checked" />`,
   styleUrls: []
 })
 export class InscriptionTableauComponent implements OnInit {
@@ -89,7 +87,6 @@ export class InscriptionTableauComponent implements OnInit {
     @Input() options;
     @Input() joueur: Joueur;
     nombre_inscrits: number;
-    inscrits: Joueur[];
 
     ngOnInit() {
       this.getInscrits(this.option.tableau);
@@ -98,7 +95,6 @@ export class InscriptionTableauComponent implements OnInit {
     getInscrits(tableau): void {
       this.tournoiService.getInscrits(tableau._id).subscribe(i => {
         this.nombre_inscrits = i.length;
-        this.inscrits = i;
       })
     }
 
@@ -110,25 +106,25 @@ export class InscriptionTableauComponent implements OnInit {
       return (this.joueur.classement >= this.option.tableau.cl_min && this.joueur.classement <= this.option.tableau.cl_max && !this.isTableauComplet())
     }
 
-    disabledCheckbox():boolean {
+    disabledCheckbox(checked):boolean {
       // La checkbox est disabled si:
       // - le classement du joueur est inférieur au classement minimum autorisé OU
       // - le classement du joueur est supérieur au classement maximum autorisé OU
       // - le numero du joueur est inférieur au numéro maximum autorisé OU
-      // - le tableau est complet ET le joueur n'est pas encore inscrit OU
+      // - le tableau est complet ET le joueur n'est pas encore inscrit (case non cochée) OU
       // - le sexe du joueur n'est pas autorisé OU
       // - la catégorie du joueur n'est pas autorisée OU
       // - le tableau n'est pas compatible avec un tableau déjà choisi OU
-      // - le nombre maximum de tableaux par jour est atteint
+      // - le nombre maximum de tableaux par jour est atteint ET le joueur n'est pas encore inscrit (case non cochée)
       return (
         this.joueur.points < this.option.tableau.cl_min || 
         this.joueur.points > this.option.tableau.cl_max || 
         this.joueur.numero < this.option.tableau.numero_max ||
-        (this.isTableauComplet() && this.inscrits.findIndex(i => i._id == this.joueur._id) == -1) ||
+        (this.isTableauComplet() && !checked) ||
         this.option.tableau.sexes.findIndex(s => s == this.joueur.sexe) == -1 ||
         this.option.tableau.categories.findIndex(c => c == this.joueur.categorie) == -1 ||
         !this.isTableauCompatible() ||
-        this.nbMaxTableauxAtteint()
+        (this.nbMaxTableauxAtteint() && !checked)
       )
     }
 
@@ -141,8 +137,9 @@ export class InscriptionTableauComponent implements OnInit {
     }
 
     private nbMaxTableauxAtteint():boolean {
-      
-      return false;
+      var selectedOptionsJour = this.options.filter(opt => opt.checked && opt.tableau.date_debut.getTime() == this.option.tableau.date_debut.getTime())
+      var nbTableauxJour = this.option.tournoi.nb_tableaux_max_par_jour.find(element=>element.jour.getTime() == this.option.tableau.date_debut.getTime()).nb
+      return  selectedOptionsJour.length >= nbTableauxJour              
     }
 
 }

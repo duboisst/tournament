@@ -1,7 +1,29 @@
 import {Tableau} from './tableau';
 
 export class Tournoi {
-    constructor(public _id:string, public nom:string, public date_debut:Date, public date_fin:Date, public type:string, public description:string, public nb_tableaux_max: any[]) {
+    constructor(public _id:string, 
+                public nom:string, 
+                public type:string, 
+                public description:string, 
+                public nb_tableaux_max_par_jour: any[]) {
+    }
+
+    get date_debut():Date {
+        var dates = this.nb_tableaux_max_par_jour.map(element => element.jour).sort(function(d1, d2) {
+            if (d1 > d2) return 1;
+            if (d1 < d2) return -1;
+            return 0;
+        });
+        return dates[0];
+    }
+
+    get date_fin():Date {
+        var dates = this.nb_tableaux_max_par_jour.map(element => element.jour).sort(function(d1, d2) {
+            if (d1 > d2) return -1;
+            if (d1 < d2) return 1;
+            return 0;
+        });
+        return dates[0];
     }
 
     get nom_type(): string {
