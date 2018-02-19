@@ -113,11 +113,17 @@ export class InscriptionTableauComponent implements OnInit {
       // La checkbox est disabled si:
       // - le classement du joueur est inférieur au classement minimum autorisé OU
       // - le classement du joueur est supérieur au classement maximum autorisé OU
-      // - le tableau est complet ET le joueur n'est pas encore inscrit
+      // - le numero du joueur est inférieur au numéro maximum autorisé OU
+      // - le tableau est complet ET le joueur n'est pas encore inscrit OU
+      // - le sexe du joueur n'est pas autorisé OU
+      // - la catégorie du joueur n'est pas autorisée
       return (
         this.joueur.points < this.option.tableau.cl_min || 
         this.joueur.points > this.option.tableau.cl_max || 
-        (this.isTableauComplet() && this.inscrits.findIndex(i => i._id == this.joueur._id) == -1)
+        this.joueur.numero < this.option.tableau.numero_max ||
+        (this.isTableauComplet() && this.inscrits.findIndex(i => i._id == this.joueur._id) == -1) ||
+        this.option.tableau.sexes.findIndex(s => s == this.joueur.sexe) == -1 ||
+        this.option.tableau.categories.findIndex(c => c == this.joueur.categorie) == -1
       )
     }
 
