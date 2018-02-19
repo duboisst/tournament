@@ -23,7 +23,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let option of options">
-                <td><app-inscription-tableau [joueur]="joueur" [option]="option"></app-inscription-tableau></td>  
+                <td><app-inscription-tableau [joueur]="joueur" [option]="option" [options]="options || []"></app-inscription-tableau></td>  
                 <td>{{ option.tableau.heureDebut }}</td>
                 <td>{{ option.tableau.nom }}</td>
                 <td>{{ option.tableau.description }}</td>

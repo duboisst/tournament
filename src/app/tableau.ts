@@ -11,6 +11,7 @@ export class Tableau {
                 public date_debut:Date, 
                 public nb_max:number,
                 public tarif:number,
+                public tableaux_non_compatibles: string[],
             ) {
     }
 

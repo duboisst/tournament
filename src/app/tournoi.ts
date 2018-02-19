@@ -1,35 +1,32 @@
 import {Tableau} from './tableau';
 
 export class Tournoi {
-    nom_type: string;
-    constructor(public _id:string, public nom:string, public date_debut:Date, public date_fin:Date, public type:string, public description:string) {
+    constructor(public _id:string, public nom:string, public date_debut:Date, public date_fin:Date, public type:string, public description:string, public nb_tableaux_max: any[]) {
+    }
+
+    get nom_type(): string {
         switch (this.type) {
             case 'I': {
-                this.nom_type = "International";
-                break;
+                return "International";
             }
             case 'NA': {
-                this.nom_type = "National A";
-                break;
+                return "National A";
             }
             case 'NB': {
-                this.nom_type = "National B";
-                break;
+                return "National B";
             }
             case 'R': {
-                this.nom_type = "Régional";
-                break;
+                return "Régional";
             }
             case 'D': {
-                this.nom_type = "Départemental";
-                break;
+                return "Départemental";
             }
             default: {
-                this.nom_type = "";
+                return "";
             }
         } 
     }
-
+    
     get duAu(): string {
         var s: string;
         var optionsD = {weekday: "long", month: "long", day: "numeric"};
