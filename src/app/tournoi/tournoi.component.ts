@@ -13,6 +13,7 @@ import { TournoiService } from '../tournoi.service';
 export class TournoiComponent implements OnInit {
   tournoi: Tournoi;
   tableaux: Tableau[];
+  jours: Date[];
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { }
 
@@ -27,18 +28,35 @@ export class TournoiComponent implements OnInit {
 
   getTableaux(tournoi_id): void {
     this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
+    this.jours = this.getJours();
   }
 
-  get jours() {
-    return this.tournoi.nb_tableaux_max_par_jour.sort(function(a, b) {
-      if (a.jour > b.jour) return 1;
-      if (a.jour < b.jour) return -1;
+  private getJours() {
+    var arr = this.tableaux.map(t=>t.date_debut).sort(function(a, b) {
+      if (a > b) return 1;
+      if (a < b) return -1;
       return 0;
-    }).map(element=>element.jour);
+    });
+    let unique_array = []
+    for(let i = 0;i < arr.length; i++){
+        if (i==0){
+            unique_array.push(arr[i])
+        }
+        else {
+          if (arr[i].getTime() != arr[i-1].getTime()) {
+            unique_array.push(arr[i])
+          }
+        }
+    }
+    return unique_array;
   }
 
   tableauxJour(jour: Date) {
     return this.tableaux.filter(t => t.date_debut.getTime() == jour.getTime());
+  }
+
+  formatJour(d: Date):string {
+    return d.toLocaleDateString("fr-FR", {weekday: "long", month: "long", day: "numeric"}).charAt(0).toUpperCase() + d.toLocaleDateString("fr-FR", {weekday: "long", month: "long", day: "numeric"}).slice(1);
   }
 
 }

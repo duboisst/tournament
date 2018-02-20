@@ -13,7 +13,11 @@
     <table class="table table-striped table-hover">
         <ng-container *ngFor="let jour of jours">
             <thead>
-                <tr><td colspan="6">{{jour.toLocaleDateString()}}</td></tr>
+                <tr><td colspan="6" class="text-center"><h3>{{formatJour(jour)}}</h3></td></tr>
+                <tr><td colspan="6" class="text-center">
+                    <p>Vous pouvez choisir au maximum {{maxTableaux(jour)}}.</p>
+                    <p *ngFor="let t of tableauxAvecTableauxIncompatibles(jour)">Si vous choisissez {{t.nom}}, vous ne pourrez pas choisir {{tableauxNonCompatibles(t)}}</p>
+                </td></tr>
                 <tr>
                     <th></th>
                     <th>Date/Heure</th>

@@ -63,7 +63,7 @@ export class Tournoi {
     }
 
     get dateDebut(): string {
-        return this.date_debut.toLocaleDateString();
+        return this.date_debut.toLocaleDateString("fr-FR", {year: "numeric", month: "long", day: "numeric"});
       }
     
     get jours(): string {

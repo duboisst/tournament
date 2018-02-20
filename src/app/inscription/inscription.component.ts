@@ -19,6 +19,7 @@ export class InscriptionComponent implements OnInit {
   tournoi: Tournoi;
   tableaux: Tableau[];
   options: any[] = [];
+  jours: Date[];
   
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute, private location: Location) { }
 
@@ -40,6 +41,9 @@ export class InscriptionComponent implements OnInit {
         if (a.nom < b.nom) return -1;
         return 0;
       });
+
+      this.jours = this.getJours();
+
       this.tableaux.forEach(t => {
         this.getInscrits(t);
       });
@@ -56,14 +60,31 @@ export class InscriptionComponent implements OnInit {
     this.location.back();
   }
 
-  get jours() {
-    return this.tournoi.nb_tableaux_max_par_jour.sort(function(a, b) {
-      if (a.jour > b.jour) return 1;
-      if (a.jour < b.jour) return -1;
+
+  private getJours() {
+    var arr = this.tableaux.map(t=>t.date_debut).sort(function(a, b) {
+      if (a > b) return 1;
+      if (a < b) return -1;
       return 0;
-    }).map(element=>element.jour);
+    });
+    let unique_array = []
+    for(let i = 0;i < arr.length; i++){
+        if (i==0){
+            unique_array.push(arr[i])
+        }
+        else {
+          if (arr[i].getTime() != arr[i-1].getTime()) {
+            unique_array.push(arr[i])
+          }
+        }
+    }
+    return unique_array;
   }
 
+  formatJour(d: Date):string {
+    return d.toLocaleDateString("fr-FR", {weekday: "long", month: "long", day: "numeric"}).charAt(0).toUpperCase() + d.toLocaleDateString("fr-FR", {weekday: "long", month: "long", day: "numeric"}).slice(1);
+  }
+  
   optionsJour(jour: Date) {
     return this.options.filter(opt => opt.tableau.date_debut.getTime() == jour.getTime());
   }
@@ -91,6 +112,21 @@ export class InscriptionComponent implements OnInit {
     })
   }
 
+  maxTableaux(jour: Date):string {
+    let max = this.tournoi.nb_tableaux_max_par_jour.find(element=>element.jour.getTime() == jour.getTime()).nb
+    if (max == 1)
+      return max.toString() + ' tableau'
+    else
+      return max.toString() + ' tableaux'
+  }
+
+  tableauxAvecTableauxIncompatibles(jour: Date):Tableau[] {
+    return this.tableaux.filter(t=>t.tableaux_non_compatibles.length!=0 && t.date_debut.getTime() == jour.getTime());
+  }
+
+  tableauxNonCompatibles(t: Tableau):string {
+    return t.tableaux_non_compatibles.map(element=>this.tableaux.find(x=>x._id==element).nom).join(' ni ');
+  }
 }
 
 
