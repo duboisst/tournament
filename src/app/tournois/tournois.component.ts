@@ -5,8 +5,8 @@ import '../rxjs-operators';
 
 import { ActivatedRoute, Params, Data, ParamMap  } from '@angular/router';
 
-import { Tournoi } from '../tournoi';
-import { TournoiService } from '../tournoi.service';
+import { Tournoi } from '../_models/tournoi';
+import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
   selector: 'app-tournois',

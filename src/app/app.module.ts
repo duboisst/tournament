@@ -10,7 +10,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TournoisComponent } from './tournois/tournois.component';
 import { TournoiComponent, NbInscritsComponent } from './tournoi/tournoi.component';
 
-import {TournoiService} from './tournoi.service';
+import {TournoiService} from './_services/tournoi.service';
 import { InscritsComponent } from './inscrits/inscrits.component';
 import { InscriptionComponent, InscriptionTableauComponent } from './inscription/inscription.component';
 

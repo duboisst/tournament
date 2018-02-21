@@ -2,10 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Tournoi } from '../tournoi';
-import { Joueur } from '../joueur';
-import { Tableau } from '../tableau';
-import { TournoiService } from '../tournoi.service';
+import { Tournoi } from '../_models/tournoi';
+import { Joueur } from '../_models/joueur';
+import { Tableau } from '../_models/tableau';
+import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
   selector: 'app-inscription',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import {Tournoi} from '../tournoi';
-import { TournoiService } from '../tournoi.service';
+import {Tournoi} from '../_models/tournoi';
+import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
   selector: 'app-navbar',

@@ -1,6 +1,6 @@
-import { Tournoi } from './tournoi';
-import { Tableau } from './tableau';
-import { Joueur } from './joueur';
+import { Tournoi } from './_models/tournoi';
+import { Tableau } from './_models/tableau';
+import { Joueur } from './_models/joueur';
 
 const toutes_categories = ['B1', 'B2', 'M1', 'M2', 'C1', 'C2', 'J1', 'J2', 'J3', 'S', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6'];
 const tous_sexes = ['M', 'F'];

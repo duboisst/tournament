@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Tournoi } from '../tournoi';
-import { Tableau } from '../tableau';
-import { TournoiService } from '../tournoi.service';
+import { Tournoi } from '../_models/tournoi';
+import { Tableau } from '../_models/tableau';
+import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
   selector: 'app-tournoi',

@@ -4,13 +4,13 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Tournoi } from './tournoi';
-import { Tableau } from './tableau';
-import { Joueur } from './joueur';
-import { TOURNOIS } from './mock-tournois';
-import { TABLEAUX } from './mock-tournois';
-import { INSCRITS } from './mock-tournois';
-import { JOUEURS } from './mock-tournois';
+import { Tournoi } from '../_models/tournoi';
+import { Tableau } from '../_models/tableau';
+import { Joueur } from '../_models/joueur';
+import { TOURNOIS } from '../mock-tournois';
+import { TABLEAUX } from '../mock-tournois';
+import { INSCRITS } from '../mock-tournois';
+import { JOUEURS } from '../mock-tournois';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
