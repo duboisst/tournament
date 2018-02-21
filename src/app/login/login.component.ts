@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
  
+import {
+    AuthService,
+    FacebookLoginProvider,
+    GoogleLoginProvider
+} from 'angular5-social-login';
+
 import { AlertService, AuthenticationService } from '../_services/index';
  
 @Component({
@@ -17,7 +23,8 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService) { }
+        private alertService: AlertService,
+        private socialAuthService: AuthService) { }
  
     ngOnInit() {
         // reset login status
@@ -41,4 +48,21 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                 });
     }
+
+    public socialSignIn(socialPlatform : string) {
+        let socialPlatformProvider;
+        if(socialPlatform == "facebook"){
+          socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+        }else if(socialPlatform == "google"){
+          socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+        }
+        
+        this.socialAuthService.signIn(socialPlatformProvider).then(
+          (userData) => {
+            console.log(socialPlatform+" sign in data : " , userData);
+            // Now sign-in with userData
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+          }
+        );
+      }
 }

@@ -3,6 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS }    from '@angular/common/http';
 
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from "angular5-social-login";
+
 // used to create fake backend
 import { fakeUserBackendProvider } from './_helpers/index';
 
@@ -25,6 +32,22 @@ import { LoginComponent } from './login/login.component';
 import { AlertComponent } from './alert/alert.component';
 import { RegisterComponent } from './register/register.component';
 
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+      [
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider("708625712860653")
+        },
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider("Your-Google-Client-Id")
+        },
+      ]
+  );
+  return config;
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +67,8 @@ import { RegisterComponent } from './register/register.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    routing
+    routing,
+    SocialLoginModule
   ],
   providers: [
     AuthGuard,
@@ -55,6 +79,10 @@ import { RegisterComponent } from './register/register.component';
         provide: HTTP_INTERCEPTORS,
         useClass: JwtInterceptor,
         multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
     },
     // provider used to create fake backend
     fakeUserBackendProvider,
