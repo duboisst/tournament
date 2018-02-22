@@ -27,7 +27,15 @@ export class TournoiComponent implements OnInit {
   }
 
   getTableaux(tournoi_id): void {
-    this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => this.tableaux = tableaux);
+    this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => {
+      this.tableaux = tableaux.sort(function(a, b) {
+        if (a.date_heure_debut.getTime() > b.date_heure_debut.getTime()) return 1;
+        if (a.date_heure_debut.getTime() < b.date_heure_debut.getTime()) return -1;
+        if (a.nom > b.nom) return 1;
+        if (a.nom < b.nom) return -1;
+        return 0;
+      });
+    });
     this.jours = this.getJours();
   }
 
