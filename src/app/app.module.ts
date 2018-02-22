@@ -3,12 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS }    from '@angular/common/http';
 
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-} from "angular5-social-login";
+import { SocialLoginModule, AuthServiceConfig } from "angular5-social-login";
+import { FacebookLoginProvider } from "angular5-social-login";
 
 // used to create fake backend
 import { fakeUserBackendProvider } from './_helpers/index';
@@ -39,10 +35,6 @@ export function getAuthServiceConfigs() {
           id: FacebookLoginProvider.PROVIDER_ID,
           provider: new FacebookLoginProvider("708625712860653")
         },
-    /*    {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider("Your-Google-Client-Id")
-        },*/
       ]
   );
   return config;

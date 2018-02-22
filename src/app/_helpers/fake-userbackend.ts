@@ -45,6 +45,41 @@ export class FakeUserBackendInterceptor implements HttpInterceptor {
                 }
             }
  
+            // faceBookLogin
+            if (request.url.endsWith('/qdqdqsqsapi/fblogin') && request.method === 'POST') {
+
+                // this.facebookAuth(request.body.token);
+
+
+                // find if any user matches login credentials
+                let filteredUsers = users.filter(user => {
+                    return user.username === request.body.id;
+                });
+ 
+                if (filteredUsers.length) {
+                    // if login details are valid return 200 OK with user details and fake jwt token
+                    let user = filteredUsers[0];
+                    let body = {
+                        id: user.id,
+                        username: user.username,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        token: 'fake-jwt-token'
+                    };
+ 
+                    return Observable.of(new HttpResponse({ status: 200, body: body }));
+                } else {
+                    // save new user
+                    let newUser = {
+                        id: users.length + 1,
+                        username: request.body.id,
+                        firstName: request.body.email,
+                        lastName: request.body.name
+                    };
+                    users.push(newUser);
+                    localStorage.setItem('users', JSON.stringify(users));                }
+            }            
+
             // get users
             if (request.url.endsWith('/api/users') && request.method === 'GET') {
                 // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
@@ -129,6 +164,7 @@ export class FakeUserBackendInterceptor implements HttpInterceptor {
         .dematerialize();
     }
 }
+
  
 export let fakeUserBackendProvider = {
     // use fake backend in place of Http service for backend-less development
@@ -136,3 +172,5 @@ export let fakeUserBackendProvider = {
     useClass: FakeUserBackendInterceptor,
     multi: true
 };
+
+

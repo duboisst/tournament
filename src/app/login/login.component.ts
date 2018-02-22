@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
- 
-import {
-    AuthService,
-    FacebookLoginProvider,
-    GoogleLoginProvider
-} from 'angular5-social-login';
+
+import { AuthService as SocialAuthService, FacebookLoginProvider } from 'angular5-social-login';
 
 import { AlertService, AuthenticationService, UserService } from '../_services/index';
 import { User } from '../_models/index';
  
 @Component({
-    moduleId: module.id,
-    templateUrl: 'login.component.html'
+    selector: 'app-login',
+    templateUrl: 'login.component.html',
+    styleUrls:  ['login.component.css']
 })
  
 export class LoginComponent implements OnInit {
@@ -26,9 +23,11 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
-        private socialAuthService: AuthService,
+        private socialAuthService: SocialAuthService,
         private http: HttpClient,
-        private userService: UserService) { }
+        private userService: UserService) { 
+
+        }
  
     ngOnInit() {
         // reset login status
@@ -55,8 +54,6 @@ export class LoginComponent implements OnInit {
         let socialPlatformProvider;
         if(socialPlatform == "facebook"){
           socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-        }else if(socialPlatform == "google"){
-          socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
         }
         
         this.socialAuthService.signIn(socialPlatformProvider).then(
@@ -84,5 +81,14 @@ export class LoginComponent implements OnInit {
         );
     }
 
-
+    public facebookLogin() {
+        let socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+        this.socialAuthService.signIn(socialPlatformProvider).then(
+          (userData) => {
+                  //this will return user data from facebook. What you need is a user token which you will send it to the server
+                  this.authenticationService.facebookLogin(userData.token);
+           }
+        );
+    }
+    
 }

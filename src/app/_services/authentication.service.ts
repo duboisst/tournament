@@ -24,4 +24,20 @@ export class AuthenticationService {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
     }
+
+
+    facebookLogin(token: string) : void {
+        this.http.post('http://localhost:3000/api/fblogin', { token: token } )
+            .subscribe(onSuccess => {
+                           //login was successful
+                           //save the token that you got from your REST API in your preferred location i.e. as a Cookie or LocalStorage as you do with normal login
+                           localStorage.setItem('currentUser', JSON.stringify(token));
+                   }, onFail => {
+                           //login was unsuccessful
+                           //show an error message
+                   }
+            );
+    }
+
+
 }
