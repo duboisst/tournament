@@ -55,8 +55,9 @@ export class TournoisComponent implements OnInit {
   getTournois(): void {
     var type = this.route.snapshot.params['type'];
     this.tournoiService.getTournois().subscribe(tournois => { 
+      let ts: any;
       if (type) {
-        this.tournois = tournois.filter(t => t.type == type);
+        ts = tournois.filter(t => t.type == type);
         var nom_type: string;
         switch (type) {
           case 'I': {
@@ -86,25 +87,29 @@ export class TournoisComponent implements OnInit {
         this.title = "Les tournois " + nom_type;
       }
       else {
-        this.tournois = tournois;
+        ts = tournois;
         this.title = 'Tous les tournois';
       }
+      this.setTournois(ts);
     });
   }
 
   getTournoisAutour(position, km): void {
     this.tournoiService.getTournoisAutour(position, km).subscribe(tournois => { 
-      this.tournois = tournois;
+      this.setTournois(tournois);
       this.title = "Les tournois à moins de " + km + "km";
     });
   }
 
   searchTournois(search: string): void {
     this.tournoiService.searchTournois(search).subscribe(tournois => { 
-      this.tournois = tournois;
+      this.setTournois(tournois);
       this.title = "Les tournois correspondant à \"" +  search + "\"";
     });
   }
 
+  private setTournois(tournois):void {
+    this.tournois = Tournoi.map(tournois);
+  }
 
 }

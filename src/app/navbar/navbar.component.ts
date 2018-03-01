@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.tournoiService.getTournois().subscribe(_tournois => {
-      this.tournois = _tournois
+      this.tournois = Tournoi.map(_tournois)
     });
   }
 
@@ -28,6 +28,7 @@ export class NavbarComponent implements OnInit {
       return this.tournois.length;
     }
     else {
+      console.log("TYPE: " + type);
       return this.tournois.filter(tournoi => tournoi.type == type).length;
     }
   }

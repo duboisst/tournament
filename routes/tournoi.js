@@ -13,6 +13,13 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/search', function(req, res, next) {
+  Tournoi.find(function (err, tournois) {
+    if (err) return next(err);
+    res.json(tournois);
+  });
+});
+
 /* create tournoi 1 */
 router.get('/new1', function(req, res, next) {
     console.log('create new tournoi');

@@ -23,17 +23,16 @@ export class TournoiService {
 
   constructor(private http: HttpClient) { }
 
-  getTournois(): Observable<Tournoi[]> {
-    return this.http.get<Tournoi[]>(this.tournoiUrl)
+  getTournois(): Observable<any> {
+    return this.http.get<any>(this.tournoiUrl);
   }
 
-  getTournoisAutour(position, km): Observable<Tournoi[]> {
-    return of(TOURNOIS);
+  getTournoisAutour(position, km): Observable<any> {
+    return this.http.get<any>(this.tournoiUrl);
   }
 
   searchTournois(search): Observable<Tournoi[]> {
-    var t: Tournoi[] = TOURNOIS.filter(element => {return  element.nom.search(new RegExp(search, 'i')) != -1;});
-    return of(t);
+    return this.http.get<any>(this.tournoiUrl + '/search?q=' + search);
   }
 
   getTournoi(id): Observable<Tournoi> {

@@ -9,7 +9,6 @@ export class Tournoi {
     }
 
     get date_debut():Date {
-        console.log('DATE DEBUT');
         var dates = this.nb_tableaux_max_par_jour.map(element => element.jour).sort(function(d1, d2) {
             if (d1 > d2) return 1;
             if (d1 < d2) return -1;
@@ -28,7 +27,6 @@ export class Tournoi {
     }
 
     get nom_type(): string {
-        console.log('NOM TYPE');
         switch (this.type) {
             case 'I': {
                 return "International";
@@ -113,5 +111,8 @@ export class Tournoi {
         return weekday[n];
     }    
 
+    static map(tournois:any):Tournoi[] {
+        return tournois.map(e => new Tournoi(e._id, e.nom, e.type, e.description, e.nb_tableaux_max_par_jour.map(n=>({jour:new Date(n.jour), nb:n.nb}))));
+    }
 
 }
