@@ -18,7 +18,9 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tournoiService.getTournois().subscribe(_tournois => this.tournois = _tournois);
+    this.tournoiService.getTournois().subscribe(_tournois => {
+      this.tournois = _tournois
+    });
   }
 
   nombreTournois(type: string):number {

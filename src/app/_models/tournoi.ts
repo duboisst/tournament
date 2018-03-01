@@ -9,6 +9,7 @@ export class Tournoi {
     }
 
     get date_debut():Date {
+        console.log('DATE DEBUT');
         var dates = this.nb_tableaux_max_par_jour.map(element => element.jour).sort(function(d1, d2) {
             if (d1 > d2) return 1;
             if (d1 < d2) return -1;
@@ -27,6 +28,7 @@ export class Tournoi {
     }
 
     get nom_type(): string {
+        console.log('NOM TYPE');
         switch (this.type) {
             case 'I': {
                 return "International";

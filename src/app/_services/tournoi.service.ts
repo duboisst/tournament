@@ -19,12 +19,12 @@ const httpOptions = {
 @Injectable()
 export class TournoiService {
 
-  private tournoiUrl = 'api/tournoi';  // URL to web api
+  private tournoiUrl = '/api/tournoi';  // URL to web api
 
   constructor(private http: HttpClient) { }
 
   getTournois(): Observable<Tournoi[]> {
-    return of(TOURNOIS);
+    return this.http.get<Tournoi[]>(this.tournoiUrl)
   }
 
   getTournoisAutour(position, km): Observable<Tournoi[]> {
