@@ -39,9 +39,7 @@ export class TournoiComponent implements OnInit {
         if (a.nom < b.nom) return -1;
         return 0;
       });
-      console.log('TABLEAUX RECUPERES: ' + this.tableaux.length)
       this.jours = this.getJours();
-      console.log('NOMBRE DE JOURS: ' + this.jours.length) 
     });
   }
 
