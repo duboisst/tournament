@@ -25,16 +25,19 @@ export class InscriptionComponent implements OnInit {
 
   ngOnInit() {
     this.getTournoi(this.route.snapshot.params['id']);
-    this.getTableaux(this.route.snapshot.params['id']);
   }
 
   getTournoi(id): void {
-    this.tournoiService.getTournoi(id).subscribe(tournoi => this.tournoi = tournoi);
+    this.tournoiService.getTournoi(id).subscribe(tournoi => {
+      this.tournoi = Tournoi.mapTournoi(tournoi);
+      this.getTableaux(this.route.snapshot.params['id']);
+    });
   }
 
   getTableaux(tournoi_id): void {
     this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => {
-      this.tableaux = tableaux.sort(function(a, b) {
+      let t:Tableau[] = Tableau.mapTableaux(tableaux);
+      this.tableaux = t.sort(function(a, b) {
         if (a.date_heure_debut.getTime() > b.date_heure_debut.getTime()) return 1;
         if (a.date_heure_debut.getTime() < b.date_heure_debut.getTime()) return -1;
         if (a.nom > b.nom) return 1;

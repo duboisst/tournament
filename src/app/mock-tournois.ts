@@ -39,7 +39,7 @@ export const JOUEURS: Joueur[] = [
     new Joueur("6", "3335924", "Thomas", "Taillade", "M", "SA Mérignac", 1527, 5344, "C2"),
     new Joueur("7", "3336028", "Pierre", "Carrat", "M", "US Talence", 1206, 14568, "C2"),
     new Joueur("8", "3332154", "Arnaud", "Gireau", "M", "CAM Bordeaux", 2193, 570, "J3"),
-    new Joueur("9", "244431", "Sarah", "Fonvielle", "F", "CAM Bordeaux", 1719, 187, "S"),
+    new Joueur("9", "244431", "Sarah", "Fonvieille", "F", "CAM Bordeaux", 1719, 187, "S"),
 ];
 
 export const INSCRITS = [

@@ -109,7 +109,7 @@ export class TournoisComponent implements OnInit {
   }
 
   private setTournois(tournois):void {
-    this.tournois = Tournoi.map(tournois);
+    this.tournois = Tournoi.mapTournois(tournois);
   }
 
 }

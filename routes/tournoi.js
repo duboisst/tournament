@@ -14,7 +14,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/search', function(req, res, next) {
-  Tournoi.find(function (err, tournois) {
+  s = new RegExp('.*' + req.query.q + '.*', 'i');
+  Tournoi.find({nom:s}, function (err, tournois) {
     if (err) return next(err);
     res.json(tournois);
   });
@@ -98,7 +99,7 @@ res.json(joueurs)
 
 /* GET ALL TABLEAUX */
 router.get('/:id/tableaux', function(req, res, next) {
-  Tableaux.find({'tournoi_id':req.params.id}, function (err, tableaux) {
+  Tableau.find({'tournoi_id':req.params.id}, function (err, tableaux) {
     if (err) return next(err);
     res.json(tableaux);
   });

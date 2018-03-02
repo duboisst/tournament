@@ -24,5 +24,9 @@ export class Tableau {
         return ("0" + debut.getHours()).slice(-2) + "h" + ("0" + debut.getMinutes()).slice(-2);
         
     }
+
+    static mapTableaux(tableaux):Tableau[] {
+        return tableaux.map(t=>new Tableau(t._id,t.tournoi_id,t.nom,t.description,t.cl_min,t.cl_max,t.numero_max,t.caregories,t.sexes,new Date(t.date_heure_debut), t.nb_max, t.tarif, t.tableaux_non_compatibles));
+    }
     
 }

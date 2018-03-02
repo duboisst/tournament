@@ -31,18 +31,20 @@ export class TournoiService {
     return this.http.get<any>(this.tournoiUrl);
   }
 
-  searchTournois(search): Observable<Tournoi[]> {
+  searchTournois(search): Observable<any> {
     return this.http.get<any>(this.tournoiUrl + '/search?q=' + search);
   }
 
-  getTournoi(id): Observable<Tournoi> {
-    var t: Tournoi = TOURNOIS.find(element => {return element._id == id;});   
-    return of(t);
+  getTournoi(id): Observable<any> {
+    return this.http.get<any>(this.tournoiUrl + '/' + id);
+/*    var t: Tournoi = TOURNOIS.find(element => {return element._id == id;});   
+    return of(t);*/
   }
 
-  getTableaux(tournoi_id): Observable<Tableau[]> {
-    var t: Tableau[] = TABLEAUX.filter(element => {return element.tournoi_id == tournoi_id;});
-    return of(t);
+  getTableaux(tournoi_id): Observable<any> {
+    return this.http.get<any>(this.tournoiUrl + '/' + tournoi_id + '/tableaux');
+ /*   var t: Tableau[] = TABLEAUX.filter(element => {return element.tournoi_id == tournoi_id;});
+    return of(t);*/
   }
 
   getInscrits(tableau_id): Observable<Joueur[]> {

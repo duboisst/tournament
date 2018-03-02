@@ -111,8 +111,12 @@ export class Tournoi {
         return weekday[n];
     }    
 
-    static map(tournois:any):Tournoi[] {
+    static mapTournois(tournois:any):Tournoi[] {
         return tournois.map(e => new Tournoi(e._id, e.nom, e.type, e.description, e.nb_tableaux_max_par_jour.map(n=>({jour:new Date(n.jour), nb:n.nb}))));
+    }
+
+    static mapTournoi(tournoi:any):Tournoi {
+        return new Tournoi(tournoi._id, tournoi.nom, tournoi.type, tournoi.description, tournoi.nb_tableaux_max_par_jour.map(n=>({jour:new Date(n.jour), nb:n.nb})));
     }
 
 }
