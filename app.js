@@ -5,7 +5,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var user = require('./routes/user');
-var tournoi = require('./routes/tournoi');
+var tournoi = require('./routes/index');
 var app = express();
 
 var mongoose = require('mongoose');

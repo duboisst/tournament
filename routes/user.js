@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var User = require('../models/User.js');
+var models = require('../models/models.js');
 
 /* GET ALL USERS */
 router.get('/', function(req, res, next) {
-  User.find(function (err, products) {
+  models.User.find(function (err, products) {
     if (err) return next(err);
     res.json(products);
   });
@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 
 /* GET SINGLE USER BY ID */
 router.get('/:id', function(req, res, next) {
-  User.findById(req.params.id, function (err, post) {
+  models.User.findById(req.params.id, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
@@ -21,7 +21,7 @@ router.get('/:id', function(req, res, next) {
 
 /* SAVE USER */
 router.post('/', function(req, res, next) {
-  User.create(req.body, function (err, post) {
+  models.User.create(req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
@@ -29,7 +29,7 @@ router.post('/', function(req, res, next) {
 
 /* UPDATE USER */
 router.put('/:id', function(req, res, next) {
-  User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+  models.User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
@@ -37,7 +37,7 @@ router.put('/:id', function(req, res, next) {
 
 /* DELETE USER */
 router.delete('/:id', function(req, res, next) {
-  User.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+  models.User.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
