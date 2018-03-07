@@ -1,8 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Joueur } from '../_models/joueur';
-import { Tableau } from '../_models/tableau';
-import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
   selector: 'app-inscrits',
@@ -11,19 +8,14 @@ import { TournoiService } from '../_services/tournoi.service';
 })
 
 export class InscritsComponent implements OnInit {
-  @Input() tableau: Tableau;
-  @Input() i: number;
+  @Input() tableau: any;
   
-  joueurs: Joueur[] = [];
+  joueurs: any[] = [];
 
-  constructor(private tournoiService: TournoiService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.getInscrits(this.tableau);
-  }
-
-  getInscrits(tableau): void {
-    this.tournoiService.getInscrits(tableau._id).subscribe(inscrits => this.joueurs = inscrits)
+    this.joueurs = this.tableau.inscrits;
   }
 
 }

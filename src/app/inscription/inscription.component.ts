@@ -2,9 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Tournoi } from '../_models/tournoi';
 import { Joueur } from '../_models/joueur';
-import { Tableau } from '../_models/tableau';
 import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
@@ -14,10 +12,10 @@ import { TournoiService } from '../_services/tournoi.service';
 })
 export class InscriptionComponent implements OnInit {
   // TODO: implémenter système d'authentification
-  joueur: Joueur = new Joueur("1", "3339022", "Stéphane", "Dubois", "M", "CAM Bordeaux", 940, 26547, "B2");
+  joueur: Joueur = new Joueur("5a980c65b3d7b82674cb28ad", "3339022", "Stéphane", "Dubois", "M", "CAM Bordeaux", 940, 26547, "B2");
   
-  tournoi: Tournoi;
-  tableaux: Tableau[];
+  tournoi: any;
+  tableaux: any[];
   options: any[] = [];
   jours: Date[];
   
@@ -29,34 +27,17 @@ export class InscriptionComponent implements OnInit {
 
   getTournoi(id): void {
     this.tournoiService.getTournoi(id).subscribe(tournoi => {
-      this.tournoi = Tournoi.mapTournoi(tournoi);
-      this.getTableaux(this.route.snapshot.params['id']);
-    });
-  }
-
-  getTableaux(tournoi_id): void {
-    this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => {
-      let t:Tableau[] = Tableau.mapTableaux(tableaux);
-      this.tableaux = t.sort(function(a, b) {
-        if (a.date_heure_debut.getTime() > b.date_heure_debut.getTime()) return 1;
-        if (a.date_heure_debut.getTime() < b.date_heure_debut.getTime()) return -1;
+      this.tournoi = tournoi;
+      this.tableaux = tournoi.tableaux.sort(function(a, b) {
+        if (new Date(a.date_heure_debut).getTime() > new Date(b.date_heure_debut).getTime()) return 1;
+        if (new Date(a.date_heure_debut).getTime() < new Date(b.date_heure_debut).getTime()) return -1;
         if (a.nom > b.nom) return 1;
         if (a.nom < b.nom) return -1;
         return 0;
       });
-
       this.jours = this.getJours();
-
-      this.tableaux.forEach(t => {
-        this.getInscrits(t);
-      });
+      this.tableaux.forEach(tableau=>this.options.push ({tournoi: this.tournoi, tableau: tableau, value: tableau._id, checked:tableau.inscrits.findIndex(i => i._id == this.joueur._id) != -1}));
     });
-  }
-
-  getInscrits(tableau): void {
-    this.tournoiService.getInscrits(tableau._id).subscribe(i => {
-      this.options.push ({tournoi: this.tournoi, tableau: tableau, value: tableau._id, checked:i.findIndex(i => i._id == this.joueur._id) != -1});
-    })
   }
 
   goBack(): void {
@@ -65,11 +46,7 @@ export class InscriptionComponent implements OnInit {
 
 
   private getJours() {
-    var arr = this.tableaux.map(t=>t.date_debut).sort(function(a, b) {
-      if (a > b) return 1;
-      if (a < b) return -1;
-      return 0;
-    });
+    var arr = this.tableaux.map(t=>new Date(t.date_debut));
     let unique_array = []
     for(let i = 0;i < arr.length; i++){
         if (i==0){
@@ -89,7 +66,7 @@ export class InscriptionComponent implements OnInit {
   }
   
   optionsJour(jour: Date) {
-    return this.options.filter(opt => opt.tableau.date_debut.getTime() == jour.getTime());
+    return this.options.filter(opt => new Date(opt.tableau.date_debut).getTime() == jour.getTime());
   }
 
   get selectedOptions() {
@@ -110,25 +87,30 @@ export class InscriptionComponent implements OnInit {
   }
 
   saveInscription():void {
-    this.tournoiService.saveInscription(this.selectedOptions, this.joueur).subscribe(() => {
+    this.tournoiService.saveInscription(this.tournoi._id, this.selectedOptions, this.joueur).subscribe(() => {
       this.goBack();
     })
   }
 
-  maxTableaux(jour: Date):string {
-    let max = this.tournoi.nb_tableaux_max_par_jour.find(element=>element.jour.getTime() == jour.getTime()).nb
+  maxTableaux(jour: Date):string {   
+    let max = this.tournoi.nb_tableaux_max_par_jour.find(element=>new Date(element.jour).getTime() == jour.getTime()).nb
     if (max == 1)
       return max.toString() + ' tableau'
     else
       return max.toString() + ' tableaux'
   }
 
-  tableauxAvecTableauxIncompatibles(jour: Date):Tableau[] {
-    return this.tableaux.filter(t=>t.tableaux_non_compatibles.length!=0 && t.date_debut.getTime() == jour.getTime());
+  tableauxAvecTableauxIncompatibles(jour: Date):any[] {
+    return this.tableaux.filter(t=>t.tableaux_non_compatibles.length!=0 && new Date(t.date_debut).getTime() == jour.getTime());
   }
 
-  tableauxNonCompatibles(t: Tableau):string {
+  tableauxNonCompatibles(t):string {
     return t.tableaux_non_compatibles.map(element=>this.tableaux.find(x=>x._id==element).nom).join(' ni ');
+  }
+
+  heureDebut(tableau): string {
+    var debut = new Date(tableau.date_heure_debut);
+    return ("0" + debut.getHours()).slice(-2) + "h" + ("0" + debut.getMinutes()).slice(-2);    
   }
 }
 
@@ -146,13 +128,7 @@ export class InscriptionTableauComponent implements OnInit {
     nombre_inscrits: number;
 
     ngOnInit() {
-      this.getInscrits(this.option.tableau);
-    }
-
-    getInscrits(tableau): void {
-      this.tournoiService.getInscrits(tableau._id).subscribe(i => {
-        this.nombre_inscrits = i.length;
-      })
+      this.nombre_inscrits = this.option.tableau.inscrits.length;
     }
 
     isTableauComplet():boolean {
@@ -194,8 +170,8 @@ export class InscriptionTableauComponent implements OnInit {
     }
 
     private nbMaxTableauxAtteint():boolean {
-      var selectedOptionsJour = this.options.filter(opt => opt.checked && opt.tableau.date_debut.getTime() == this.option.tableau.date_debut.getTime())
-      var nbTableauxJour = this.option.tournoi.nb_tableaux_max_par_jour.find(element=>element.jour.getTime() == this.option.tableau.date_debut.getTime()).nb
+      var selectedOptionsJour = this.options.filter(opt => opt.checked && new Date(opt.tableau.date_debut).getTime() == new Date(this.option.tableau.date_debut).getTime())
+      var nbTableauxJour = this.option.tournoi.nb_tableaux_max_par_jour.find(element=>new Date(element.jour).getTime() == new Date(this.option.tableau.date_debut).getTime()).nb
       return  selectedOptionsJour.length >= nbTableauxJour              
     }
 

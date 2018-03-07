@@ -22,13 +22,12 @@ router.get('/search', function(req, res, next) {
 
 // GET SINGLE TOURNOI BY ID
 router.get('/:id', function(req, res, next) {
-    models.Tournoi.findById(req.params.id, function (err, tournoi) {
+    models.Tournoi.findById(req.params.id).populate('tableaux.inscrits').exec(function (err, tournoi) {
       if (err) return next(err);
       res.json(tournoi);
     });
-  });
+});
   
-
 // CREATE NEW TOURNOI
 router.post('/', function(req, res, next) {
   models.Tournoi.create(req.body, function (err, tournoi) {
@@ -66,7 +65,7 @@ router.put('/:id/inscription/:joueur', function(req, res, next) {
             tournoi.tableaux.forEach(t=>t.inscrits.pull(req.params.joueur));
             
             //ajout du joueur dans les tableaux choisis
-            req.body.tableaux.forEach(t=> {
+            req.body.forEach(t=> {
                 let tab = tournoi.tableaux.id(t);
                 tab.inscrits.push(req.params.joueur);
             });

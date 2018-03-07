@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Tournoi } from '../_models/tournoi';
-import { Tableau } from '../_models/tableau';
 import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
@@ -12,8 +10,8 @@ import { TournoiService } from '../_services/tournoi.service';
   styleUrls: ['./tournoi.component.css']
 })
 export class TournoiComponent implements OnInit {
-  tournoi: Tournoi;
-  tableaux: Tableau[];
+  tournoi: any;
+  tableaux: any[];
   jours: Date[];
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { }
@@ -24,17 +22,10 @@ export class TournoiComponent implements OnInit {
 
   getTournoi(id): void {
     this.tournoiService.getTournoi(id).subscribe(tournoi => {
-      this.tournoi = Tournoi.mapTournoi(tournoi);
-      this.getTableaux(this.route.snapshot.params['id']);
-    });
-  }
-
-  getTableaux(tournoi_id): void {
-    this.tournoiService.getTableaux(tournoi_id).subscribe(tableaux => {
-      let t:Tableau[] = Tableau.mapTableaux(tableaux);
-      this.tableaux = t.sort(function(a, b) {
-        if (a.date_heure_debut.getTime() > b.date_heure_debut.getTime()) return 1;
-        if (a.date_heure_debut.getTime() < b.date_heure_debut.getTime()) return -1;
+      this.tournoi = tournoi;
+      this.tableaux = tournoi.tableaux.sort(function(a, b) {
+        if (new Date(a.date_heure_debut).getTime() > new Date(b.date_heure_debut).getTime()) return 1;
+        if (new Date(a.date_heure_debut).getTime() < new Date(b.date_heure_debut).getTime()) return -1;
         if (a.nom > b.nom) return 1;
         if (a.nom < b.nom) return -1;
         return 0;
@@ -44,11 +35,7 @@ export class TournoiComponent implements OnInit {
   }
 
   private getJours() {
-    var arr = this.tableaux.map(t=>t.date_debut).sort(function(a, b) {
-      if (a > b) return 1;
-      if (a < b) return -1;
-      return 0;
-    });
+    var arr = this.tableaux.map(t=>new Date(t.date_debut));
     let unique_array = []
     for(let i = 0;i < arr.length; i++){
         if (i==0){
@@ -64,35 +51,16 @@ export class TournoiComponent implements OnInit {
   }
 
   tableauxJour(jour: Date) {
-    return this.tableaux.filter(t => t.date_debut.getTime() == jour.getTime());
+    return this.tableaux.filter(t => new Date(t.date_debut).getTime() == jour.getTime());
   }
 
   formatJour(d: Date):string {
     return d.toLocaleDateString("fr-FR", {weekday: "long", month: "long", day: "numeric"}).charAt(0).toUpperCase() + d.toLocaleDateString("fr-FR", {weekday: "long", month: "long", day: "numeric"}).slice(1);
   }
 
-}
-
-@Component({
-  selector: 'app-nbinscrits',
-  template: `<span>{{ nombre_inscrits }}</span> <span *ngIf="isTableauComplet()" class="label label-danger">complet</span>`,
-  styleUrls: []
-})
-export class NbInscritsComponent implements OnInit {
-  constructor(private tournoiService: TournoiService) { }
-    @Input() tableau: Tableau;
-    nombre_inscrits: number;
-
-    ngOnInit() {
-      this.getNombreInscrits(this.tableau);
-    }
-
-    getNombreInscrits(tableau): void {
-      this.tournoiService.getInscrits(tableau._id).subscribe(i => this.nombre_inscrits = i.length)
-    }
-
-    isTableauComplet():boolean {
-      return this.nombre_inscrits >= this.tableau.nb_max ;
-    }
+  heureDebut(tableau): string {
+    var debut = new Date(tableau.date_heure_debut);
+    return ("0" + debut.getHours()).slice(-2) + "h" + ("0" + debut.getMinutes()).slice(-2);    
+  }
 
 }

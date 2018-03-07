@@ -24,8 +24,17 @@ var TableauSchema = new mongoose.Schema({
     nb_max:Number,
     tarif:Number,
     tableaux_non_compatibles: [],
-    inscrits: [JoueurSchema],
+    inscrits: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Joueur' }],
     updated_date: { type: Date, default: Date.now }
+  });
+  TableauSchema.virtual('estComplet').get(function() {
+    return this.inscrits.length == this.nb_max;
+  });
+  TableauSchema.virtual('date_debut').get(function() {
+    return new Date(this.date_heure_debut.getFullYear(), this.date_heure_debut.getMonth(), this.date_heure_debut.getDate());
+  });
+  TableauSchema.set('toJSON', {
+    virtuals: true
   });
   
 var TournoiSchema = new mongoose.Schema({

@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 
 var user = require('./routes/user');
 var tournoi = require('./routes/index');
+var joueur = require('./routes/joueur');
 var app = express();
 
 var mongoose = require('mongoose');
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 // app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/api/user', user);
+app.use('/api/joueur', joueur);
 app.use('/api/tournoi', tournoi);
 
 /*

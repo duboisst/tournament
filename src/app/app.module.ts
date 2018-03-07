@@ -8,7 +8,7 @@ import { routing } from './app.routing';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { TournoisComponent } from './tournois/tournois.component';
-import { TournoiComponent, NbInscritsComponent } from './tournoi/tournoi.component';
+import { TournoiComponent } from './tournoi/tournoi.component';
 
 import {TournoiService} from './_services/tournoi.service';
 import { InscritsComponent } from './inscrits/inscrits.component';
@@ -21,7 +21,6 @@ import { InscriptionComponent, InscriptionTableauComponent } from './inscription
     TournoisComponent,
     TournoiComponent,
     InscritsComponent,
-    NbInscritsComponent,
     InscriptionComponent,
     InscriptionTableauComponent
   ],

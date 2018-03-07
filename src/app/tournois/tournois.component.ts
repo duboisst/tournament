@@ -5,7 +5,6 @@ import '../rxjs-operators';
 
 import { ActivatedRoute, Params, Data, ParamMap  } from '@angular/router';
 
-import { Tournoi } from '../_models/tournoi';
 import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
@@ -16,7 +15,7 @@ import { TournoiService } from '../_services/tournoi.service';
 
 export class TournoisComponent implements OnInit {
   title: string;
-  tournois: Tournoi[];
+  tournois: any[];
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { 
     // The following code is here to make the component reload event if, only the param changed in the route
@@ -55,9 +54,8 @@ export class TournoisComponent implements OnInit {
   getTournois(): void {
     var type = this.route.snapshot.params['type'];
     this.tournoiService.getTournois().subscribe(tournois => { 
-      let ts: any;
       if (type) {
-        ts = tournois.filter(t => t.type == type);
+        this.tournois = tournois.filter(t => t.type == type);
         var nom_type: string;
         switch (type) {
           case 'I': {
@@ -87,29 +85,75 @@ export class TournoisComponent implements OnInit {
         this.title = "Les tournois " + nom_type;
       }
       else {
-        ts = tournois;
+        this.tournois = tournois;
         this.title = 'Tous les tournois';
       }
-      this.setTournois(ts);
     });
   }
 
   getTournoisAutour(position, km): void {
     this.tournoiService.getTournoisAutour(position, km).subscribe(tournois => { 
-      this.setTournois(tournois);
+      this.tournois = tournois;
       this.title = "Les tournois à moins de " + km + "km";
     });
   }
 
   searchTournois(search: string): void {
     this.tournoiService.searchTournois(search).subscribe(tournois => { 
-      this.setTournois(tournois);
+      this.tournois = tournois;
       this.title = "Les tournois correspondant à \"" +  search + "\"";
     });
   }
 
-  private setTournois(tournois):void {
-    this.tournois = Tournoi.mapTournois(tournois);
+  dateDebut(tournoi): string {
+    let d = new Date(tournoi.date_debut);
+    return d.toLocaleDateString("fr-FR", {year: "numeric", month: "long", day: "numeric"});
   }
+
+  jours(tournoi): string {
+    var debut = new Date(tournoi.date_debut);
+    var fin = new Date(tournoi.date_fin);
+    var jours = [];
+    for (var d = debut; d <= fin; d.setDate(d.getDate() + 1)) {
+        jours.push(this.weekday(d.getDay()));
+    }
+    return jours.join(" - ");
+  }
+
+  labelClass(tournoi):string {
+    switch(tournoi.type) { 
+      case 'I': { 
+        return 'label-danger';
+    } 
+    case 'NA': { 
+        return 'label-warning';
+      } 
+      case 'NB': { 
+        return 'label-warning';
+      } 
+      case 'R': { 
+        return 'label-primary';
+      } 
+      case 'D': { 
+        return 'label-default';
+      } 
+      default: { 
+        return 'label-default';
+      } 
+    } 
+  }
+
+  private weekday(n): string {
+    var weekday = new Array(7);
+    weekday[0] =  "Dimanche";
+    weekday[1] = "Lundi";
+    weekday[2] = "Mardi";
+    weekday[3] = "Mercredi";
+    weekday[4] = "Jeudi";
+    weekday[5] = "Vendredi";
+    weekday[6] = "Samedi";
+    
+    return weekday[n];
+  }    
 
 }

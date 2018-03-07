@@ -14,7 +14,7 @@
 <div class="container">
   <h1 class="display-2">Tableaux</h1>
   <table class="table table-striped table-hover">
-    <ng-container *ngFor="let jour of jours">   
+    <ng-container *ngFor="let jour of jours let j=index">   
       <thead>
         <tr><td colspan="6" class="text-center"><h3>{{formatJour(jour)}}</h3></td></tr>
         <tr>
@@ -26,14 +26,14 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let tableau of tableauxJour(jour) let i=index">
-            <tr class="accordion-toggle" role="button" data-toggle="collapse" [attr.data-target]="'#accordion_' + [i]">
-                <td>{{ tableau.heureDebut }}</td>
+            <tr class="accordion-toggle" role="button" data-toggle="collapse" [attr.data-target]="'#accordion_' + [j] + '_' + [i]">
+                <td>{{ heureDebut(tableau) }}</td>
                 <td>{{ tableau.nom }}</td>
                 <td>{{ tableau.description }}</td>
-                <td><app-nbinscrits [tableau] = "tableau"></app-nbinscrits></td>
+                <td><span>{{ tableau.inscrits.length }}</span> <span *ngIf="tableau.estComplet" class="label label-danger">complet</span></td>
                 <td><i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></td>
             </tr>
-            <tr class="collapse" id="accordion_{{i}}">
+            <tr class="collapse" id="accordion_{{j}}_{{i}}">
               <td colspan="5">
                 <app-inscrits [tableau]="tableau"></app-inscrits>
               </td>
