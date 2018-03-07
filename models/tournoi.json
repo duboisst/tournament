@@ -70,7 +70,7 @@
          "tarif": "8"
       },
       {
-         "nom": "Tableau D",
+         "nom": "Tableau F",
          "description": "de 500 à 1399",
          "cl_max": "1399",
          "categories": ["B1", "B2", "M1", "M2", "C1", "C2", "J1", "J2", "J3", "S", "V1", "V2", "V3", "V4", "V5", "V6"],
@@ -83,7 +83,7 @@
          "tarif": "8"
       },
       {
-         "nom": "Tableau D",
+         "nom": "Tableau G",
          "description": "Vétérans",
          "categories": ["V1", "V2", "V3", "V4", "V5", "V6"],
          "sexes": [
@@ -95,7 +95,7 @@
          "tarif": "7"
       },
       {
-         "nom": "Tableau D",
+         "nom": "Tableau H",
          "description": "Toutes séries",
          "categories": ["B1", "B2", "M1", "M2", "C1", "C2", "J1", "J2", "J3", "S", "V1", "V2", "V3", "V4", "V5", "V6"],
          "sexes": [
@@ -107,7 +107,7 @@
          "tarif": "10"
       },
       {
-         "nom": "Tableau D",
+         "nom": "Tableau I",
          "description": "Poussins, Benjamins",
          "categories": ["P", "B1", "B2"],
          "sexes": [
@@ -119,7 +119,7 @@
          "tarif": "5"
       },
       {
-         "nom": "Tableau D",
+         "nom": "Tableau J",
          "description": "Minimes, Cadets",
          "categories": ["M1", "M2", "C1", "C2"],
          "sexes": [
@@ -131,7 +131,7 @@
          "tarif": "5"
       },
       {
-         "nom": "Tableau D",
+         "nom": "Tableau K",
          "description": "Toutes séries Dames",
          "categories": ["B1", "B2", "M1", "M2", "C1", "C2", "J1", "J2", "J3", "S", "V1", "V2", "V3", "V4", "V5", "V6"],
          "sexes": [
@@ -140,7 +140,25 @@
          "date_heure_debut": "2018-05-11 14:00:00",
          "nb_max": "96",
          "tarif": "8"
-      }
+      },
+      {
+        "nom": "Tableau L",
+        "description": "500 à 850",
+        "cl_max":"850",
+        "categories": ["B1", "B2", "M1", "M2", "C1", "C2", "J1", "J2", "J3", "S", "V1", "V2", "V3", "V4", "V5", "V6"],
+        "date_heure_debut": "2018-05-11 14:00:00",
+        "nb_max": "48",
+        "tarif": "6"
+     },
+     {
+        "nom": "Tableau M",
+        "description": "500 à N°500",
+        "numero_max":"500",
+        "categories": ["B1", "B2", "M1", "M2", "C1", "C2", "J1", "J2", "J3", "S", "V1", "V2", "V3", "V4", "V5", "V6"],
+        "date_heure_debut": "2018-05-11 16:00:00",
+        "nb_max": "96",
+        "tarif": "8"
+     }          
    ],
    "nb_tableaux_max_par_jour": [
       {

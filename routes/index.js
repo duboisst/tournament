@@ -5,8 +5,7 @@ var models = require('../models/models.js');
 
 // GET ALL TOURNOIS
 router.get('/', function(req, res, next) {
-    models.Tournoi.find({}, '_id nom type description updated_date nb_tableaux_max_par_jour', function (err, tournois) {
-  // models.Tournoi.find({}, '_id nom type description updated_date nb_tableaux_max_par_jour', function (err, tournois) {
+    models.Tournoi.find({}, '_id nom type description updated_date nb_tableaux nb_tableaux_max_par_jour', function (err, tournois) {
     if (err) return next(err);
     res.json(tournois);
   });
@@ -15,7 +14,7 @@ router.get('/', function(req, res, next) {
 // SEARCH TOURNOIS
 router.get('/search', function(req, res, next) {
   s = new RegExp('.*' + req.query.q + '.*', 'i');
-  models.Tournoi.find({nom:s}, '_id nom type description updated_date nb_tableaux_max_par_jour', function (err, tournois) {
+  models.Tournoi.find({nom:s}, '_id nom type description updated_date nb_tableaux nb_tableaux_max_par_jour', function (err, tournois) {
     if (err) return next(err);
     res.json(tournois);
   });
@@ -43,7 +42,10 @@ router.post('/', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   models.Tournoi.findByIdAndUpdate(req.params.id, req.body, function (err, tournoi) {
     if (err) return next(err);
-    res.json(tournoi);
+    models.Tournoi.findById(req.params.id, function (err, modifiedTournoi) {
+      if (err) return next(err);
+      res.json(modifiedTournoi);
+    });
   });
 });
 
