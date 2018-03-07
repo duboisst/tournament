@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import {Tournoi} from '../_models/tournoi';
 import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { TournoiService } from '../_services/tournoi.service';
 })
 
 export class NavbarComponent implements OnInit {
-  tournois: Tournoi[];
+  tournois: any[];
 
   constructor(private tournoiService: TournoiService, private router:Router) { 
 
@@ -19,7 +18,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.tournoiService.getTournois().subscribe(_tournois => {
-      this.tournois = Tournoi.mapTournois(_tournois)
+      this.tournois = _tournois;
     });
   }
 

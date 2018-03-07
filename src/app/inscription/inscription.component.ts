@@ -12,11 +12,9 @@ import { TournoiService } from '../_services/tournoi.service';
 })
 export class InscriptionComponent implements OnInit {
   // TODO: implémenter système d'authentification
-  joueur: Joueur = new Joueur("5a980c65b3d7b82674cb28ad", "3339022", "Stéphane", "Dubois", "M", "CAM Bordeaux", 940, 26547, "B2");
+  joueur: Joueur = new Joueur("5a98627d360f273e94992e1c", "3339022", "Stéphane", "Dubois", "M", "CAM Bordeaux", 940, 26547, "B2");
   
-  tournoi: any;
-  tableaux: any[];
-  options: any[] = [];
+  tournoi: any = {};
   jours: Date[];
   
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute, private location: Location) { }
@@ -28,15 +26,15 @@ export class InscriptionComponent implements OnInit {
   getTournoi(id): void {
     this.tournoiService.getTournoi(id).subscribe(tournoi => {
       this.tournoi = tournoi;
-      this.tableaux = tournoi.tableaux.sort(function(a, b) {
+      tournoi.tableaux.sort(function(a, b) {
         if (new Date(a.date_heure_debut).getTime() > new Date(b.date_heure_debut).getTime()) return 1;
         if (new Date(a.date_heure_debut).getTime() < new Date(b.date_heure_debut).getTime()) return -1;
         if (a.nom > b.nom) return 1;
         if (a.nom < b.nom) return -1;
         return 0;
       });
+      tournoi.tableaux.forEach(tableau=>tableau.checked = tableau.inscrits.findIndex(i => i._id == this.joueur._id) != -1);
       this.jours = this.getJours();
-      this.tableaux.forEach(tableau=>this.options.push ({tournoi: this.tournoi, tableau: tableau, value: tableau._id, checked:tableau.inscrits.findIndex(i => i._id == this.joueur._id) != -1}));
     });
   }
 
@@ -46,7 +44,7 @@ export class InscriptionComponent implements OnInit {
 
 
   private getJours() {
-    var arr = this.tableaux.map(t=>new Date(t.date_debut));
+    var arr = this.tournoi.tableaux.map(t=>new Date(t.date_debut));
     let unique_array = []
     for(let i = 0;i < arr.length; i++){
         if (i==0){
@@ -65,24 +63,24 @@ export class InscriptionComponent implements OnInit {
     return d.toLocaleDateString("fr-FR", {weekday: "long", month: "long", day: "numeric"}).charAt(0).toUpperCase() + d.toLocaleDateString("fr-FR", {weekday: "long", month: "long", day: "numeric"}).slice(1);
   }
   
-  optionsJour(jour: Date) {
-    return this.options.filter(opt => new Date(opt.tableau.date_debut).getTime() == jour.getTime());
+  tableauxJour(jour: Date) {
+    return this.tournoi.tableaux.filter(t => new Date(t.date_debut).getTime() == jour.getTime());
   }
 
   get selectedOptions() {
-    return this.options
-      .filter(opt => opt.checked)
-      .map(opt => opt.value)
+    return this.tournoi.tableaux
+      .filter(t => t.checked)
+      .map(t => t._id)
   }
 
   get nbTableaux() {
-    return this.options
-    .filter(opt => opt.checked).length
+    return this.tournoi.tableaux
+    .filter(t => t.checked).length
   }
 
   get prixTotal() {
     return this.nbTableaux > 0 ?
-            this.options.filter(opt => opt.checked).map(opt => opt.tableau.tarif).reduce(function(a,v) {return a+v}) :
+            this.tournoi.tableaux.filter(t => t.checked).map(t => t.tarif).reduce(function(a,v) {return a+v}) :
             0
   }
 
@@ -101,11 +99,11 @@ export class InscriptionComponent implements OnInit {
   }
 
   tableauxAvecTableauxIncompatibles(jour: Date):any[] {
-    return this.tableaux.filter(t=>t.tableaux_non_compatibles.length!=0 && new Date(t.date_debut).getTime() == jour.getTime());
+    return this.tournoi.tableaux.filter(t=>t.tableaux_non_compatibles.length!=0 && new Date(t.date_debut).getTime() == jour.getTime());
   }
 
   tableauxNonCompatibles(t):string {
-    return t.tableaux_non_compatibles.map(element=>this.tableaux.find(x=>x._id==element).nom).join(' ni ');
+    return t.tableaux_non_compatibles.map(element=>this.tournoi.tableaux.find(x=>x._id==element).nom).join(' ni ');
   }
 
   heureDebut(tableau): string {
@@ -117,62 +115,60 @@ export class InscriptionComponent implements OnInit {
 
 @Component({
   selector: 'app-inscription-tableau',
-  template: `<input [disabled]="disabledCheckbox(option.checked)" type="checkbox" name="options" value="{{option.value}}" [(ngModel)]="option.checked" />`,
+  template: `<input [disabled]="disabledCheckbox(tableau.checked)" type="checkbox" name="tableaux" value="{{tableau._id}}" [(ngModel)]="tableau.checked" />`,
   styleUrls: []
 })
 export class InscriptionTableauComponent implements OnInit {
   constructor(private tournoiService: TournoiService) { }  
-    @Input() option;
-    @Input() options;
-    @Input() joueur: Joueur;
-    nombre_inscrits: number;
+  
+  @Input() joueur: Joueur;
+  @Input() tableau;
+  @Input() tournoi;
 
-    ngOnInit() {
-      this.nombre_inscrits = this.option.tableau.inscrits.length;
-    }
+  nombre_inscrits: number;
 
-    isTableauComplet():boolean {
-      return this.nombre_inscrits >= this.option.tableau.nb_max ;
-    }
+  ngOnInit() {
+    this.nombre_inscrits = this.tableau.inscrits.length;
+  }
 
-    inscriptionPossible():boolean {
-      return (this.joueur.classement >= this.option.tableau.cl_min && this.joueur.classement <= this.option.tableau.cl_max && !this.isTableauComplet())
-    }
+  isTableauComplet():boolean {
+    return this.nombre_inscrits >= this.tableau.nb_max ;
+  }
 
-    disabledCheckbox(checked):boolean {
-      // La checkbox est disabled si:
-      // - le classement du joueur est inférieur au classement minimum autorisé OU
-      // - le classement du joueur est supérieur au classement maximum autorisé OU
-      // - le numero du joueur est inférieur au numéro maximum autorisé OU
-      // - le tableau est complet ET le joueur n'est pas encore inscrit (case non cochée) OU
-      // - le sexe du joueur n'est pas autorisé OU
-      // - la catégorie du joueur n'est pas autorisée OU
-      // - le tableau n'est pas compatible avec un tableau déjà choisi OU
-      // - le nombre maximum de tableaux par jour est atteint ET le joueur n'est pas encore inscrit (case non cochée)
-      return (
-        this.joueur.points < this.option.tableau.cl_min || 
-        this.joueur.points > this.option.tableau.cl_max || 
-        this.joueur.numero < this.option.tableau.numero_max ||
-        (this.isTableauComplet() && !checked) ||
-        this.option.tableau.sexes.findIndex(s => s == this.joueur.sexe) == -1 ||
-        this.option.tableau.categories.findIndex(c => c == this.joueur.categorie) == -1 ||
-        !this.isTableauCompatible() ||
-        (this.nbMaxTableauxAtteint() && !checked)
-      )
-    }
+  disabledCheckbox(checked):boolean {
+    // La checkbox est disabled si:
+    // - le classement du joueur est inférieur au classement minimum autorisé OU
+    // - le classement du joueur est supérieur au classement maximum autorisé OU
+    // - le numero du joueur est inférieur au numéro maximum autorisé OU
+    // - le tableau est complet ET le joueur n'est pas encore inscrit (case non cochée) OU
+    // - le sexe du joueur n'est pas autorisé OU
+    // - la catégorie du joueur n'est pas autorisée OU
+    // - le tableau n'est pas compatible avec un tableau déjà choisi OU
+    // - le nombre maximum de tableaux par jour est atteint ET le joueur n'est pas encore inscrit (case non cochée)
+    return (
+      this.joueur.points < this.tableau.cl_min || 
+      this.joueur.points > this.tableau.cl_max || 
+      this.joueur.numero < this.tableau.numero_max ||
+      (this.isTableauComplet() && !checked) ||
+      this.tableau.sexes.findIndex(s => s == this.joueur.sexe) == -1 ||
+      this.tableau.categories.findIndex(c => c == this.joueur.categorie) == -1 ||
+      !this.isTableauCompatible() ||
+      (this.nbMaxTableauxAtteint() && !checked)
+    )
+  }
 
-    private isTableauCompatible(): boolean {
-      var compatible:boolean = true;
-      this.option.tableau.tableaux_non_compatibles.forEach(element => {
-        compatible = (compatible && (this.options.filter(opt => opt.checked).map(opt => opt.value).findIndex(o => o == element) == -1))
-      });
-      return compatible;
-    }
+  private isTableauCompatible(): boolean {
+    var compatible:boolean = true;
+    this.tableau.tableaux_non_compatibles.forEach(element => {
+      compatible = (compatible && (this.tournoi.tableaux.filter(t => t.checked).map(t =>t._id).findIndex(o => o == element) == -1))
+    });
+    return compatible;
+  }
 
-    private nbMaxTableauxAtteint():boolean {
-      var selectedOptionsJour = this.options.filter(opt => opt.checked && new Date(opt.tableau.date_debut).getTime() == new Date(this.option.tableau.date_debut).getTime())
-      var nbTableauxJour = this.option.tournoi.nb_tableaux_max_par_jour.find(element=>new Date(element.jour).getTime() == new Date(this.option.tableau.date_debut).getTime()).nb
-      return  selectedOptionsJour.length >= nbTableauxJour              
-    }
+  private nbMaxTableauxAtteint():boolean {
+    var selectedOptionsJour = this.tournoi.tableaux.filter(t => t.checked && new Date(t.date_debut).getTime() == new Date(this.tableau.date_debut).getTime())
+    var nbTableauxJour = this.tournoi.nb_tableaux_max_par_jour.find(element=>new Date(element.jour).getTime() == new Date(this.tableau.date_debut).getTime()).nb
+    return  selectedOptionsJour.length >= nbTableauxJour              
+  }
 
 }

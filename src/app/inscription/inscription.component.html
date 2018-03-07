@@ -28,13 +28,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let option of optionsJour(jour)">
-                    <td><app-inscription-tableau [joueur]="joueur" [option]="option" [options]="options || []"></app-inscription-tableau></td>  
-                    <td>{{ heureDebut(option.tableau) }}</td>
-                    <td>{{ option.tableau.nom }}</td>
-                    <td>{{ option.tableau.description }}</td>
-                    <td>{{ option.tableau.tarif }} €</td>
-                    <td><span>{{ option.tableau.inscrits.length }}</span></td>
+                <tr *ngFor="let tableau of tableauxJour(jour)">
+                    <td><app-inscription-tableau [joueur]="joueur" [tableau]="tableau" [tournoi]="tournoi"></app-inscription-tableau></td>  
+                    <td>{{ heureDebut(tableau) }}</td>
+                    <td>{{ tableau.nom }}</td>
+                    <td>{{ tableau.description }}</td>
+                    <td>{{ tableau.tarif }} €</td>
+                    <td><span>{{ tableau.inscrits.length }}</span></td>
                 </tr>
             </tbody>
         </ng-container>
