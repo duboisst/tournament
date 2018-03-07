@@ -31,9 +31,9 @@
                 <td>{{ tableau.nom }}</td>
                 <td>{{ tableau.description }}</td>
                 <td><span>{{ tableau.inscrits.length }}</span> <span *ngIf="tableau.estComplet" class="label label-danger">complet</span></td>
-                <td><i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></td>
+                <td><i *ngIf="tableau.inscrits.length>0" class="indicator glyphicon glyphicon-chevron-down pull-right"></i></td>
             </tr>
-            <tr class="collapse" id="accordion_{{j}}_{{i}}">
+            <tr *ngIf="tableau.inscrits.length>0" class="collapse" id="accordion_{{j}}_{{i}}">
               <td colspan="5">
                 <app-inscrits [tableau]="tableau"></app-inscrits>
               </td>

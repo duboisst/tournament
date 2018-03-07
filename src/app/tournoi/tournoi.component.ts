@@ -11,7 +11,6 @@ import { TournoiService } from '../_services/tournoi.service';
 })
 export class TournoiComponent implements OnInit {
   tournoi: any;
-  tableaux: any[];
   jours: Date[];
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { }
@@ -23,7 +22,7 @@ export class TournoiComponent implements OnInit {
   getTournoi(id): void {
     this.tournoiService.getTournoi(id).subscribe(tournoi => {
       this.tournoi = tournoi;
-      this.tableaux = tournoi.tableaux.sort(function(a, b) {
+      tournoi.tableaux.sort(function(a, b) {
         if (new Date(a.date_heure_debut).getTime() > new Date(b.date_heure_debut).getTime()) return 1;
         if (new Date(a.date_heure_debut).getTime() < new Date(b.date_heure_debut).getTime()) return -1;
         if (a.nom > b.nom) return 1;
@@ -35,7 +34,7 @@ export class TournoiComponent implements OnInit {
   }
 
   private getJours() {
-    var arr = this.tableaux.map(t=>new Date(t.date_debut));
+    var arr = this.tournoi.tableaux.map(t=>new Date(t.date_debut));
     let unique_array = []
     for(let i = 0;i < arr.length; i++){
         if (i==0){
@@ -51,7 +50,7 @@ export class TournoiComponent implements OnInit {
   }
 
   tableauxJour(jour: Date) {
-    return this.tableaux.filter(t => new Date(t.date_debut).getTime() == jour.getTime());
+    return this.tournoi.tableaux.filter(t => new Date(t.date_debut).getTime() == jour.getTime());
   }
 
   formatJour(d: Date):string {
