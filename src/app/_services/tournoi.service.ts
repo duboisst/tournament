@@ -40,6 +40,10 @@ export class TournoiService {
     );
   }
 
+  getJoueur(): Observable<any> {
+    return this.http.get<any>('/api/joueur/5a980c65b3d7b82674cb28ad');
+  }
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
  

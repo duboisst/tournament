@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Joueur } from '../_models/joueur';
 import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
@@ -12,8 +11,7 @@ import { TournoiService } from '../_services/tournoi.service';
 })
 export class InscriptionComponent implements OnInit {
   // TODO: implémenter système d'authentification
-  joueur: Joueur = new Joueur("5a98627d360f273e94992e1c", "3339022", "Stéphane", "Dubois", "M", "CAM Bordeaux", 940, 26547, "B2");
-  
+  joueur: any;
   tournoi: any = {};
   jours: Date[];
   
@@ -21,6 +19,7 @@ export class InscriptionComponent implements OnInit {
 
   ngOnInit() {
     this.getTournoi(this.route.snapshot.params['id']);
+    this.getJoueur();
   }
 
   getTournoi(id): void {
@@ -35,6 +34,12 @@ export class InscriptionComponent implements OnInit {
       });
       tournoi.tableaux.forEach(tableau=>tableau.checked = tableau.inscrits.findIndex(i => i._id == this.joueur._id) != -1);
       this.jours = this.getJours();
+    });
+  }
+
+  getJoueur(): void {
+    this.tournoiService.getJoueur().subscribe(joueur => {
+      this.joueur = joueur;
     });
   }
 
@@ -121,7 +126,7 @@ export class InscriptionComponent implements OnInit {
 export class InscriptionTableauComponent implements OnInit {
   constructor(private tournoiService: TournoiService) { }  
   
-  @Input() joueur: Joueur;
+  @Input() joueur;
   @Input() tableau;
   @Input() tournoi;
 
