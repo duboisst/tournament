@@ -44,7 +44,7 @@ export class InscriptionComponent implements OnInit {
   }
 
   goBack(): void {
-    this.location.back();
+    window.location.reload();
   }
 
 
@@ -155,8 +155,8 @@ export class InscriptionTableauComponent implements OnInit {
       this.joueur.points > this.tableau.cl_max || 
       this.joueur.numero < this.tableau.numero_max ||
       (this.isTableauComplet() && !checked) ||
-      this.tableau.sexes.findIndex(s => s == this.joueur.sexe) == -1 ||
-      this.tableau.categories.findIndex(c => c == this.joueur.categorie) == -1 ||
+      (this.tableau.sexes.length > 0 && this.tableau.sexes.findIndex(s => s == this.joueur.sexe) == -1) ||
+      (this.tableau.categories.length > 0 &&this.tableau.categories.findIndex(c => c == this.joueur.categorie) == -1) ||
       !this.isTableauCompatible() ||
       (this.nbMaxTableauxAtteint() && !checked)
     )
