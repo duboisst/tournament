@@ -1,3 +1,5 @@
+<div *ngIf="loading">Loading...</div>
+<div class="container" *ngIf="!loading">
 <div class="container">
   <h1>{{tournoi.nom}}</h1>
   <div class="row">
@@ -44,5 +46,5 @@
     </table>
   <hr class="my-4">
 </div>
-
+</div>
 

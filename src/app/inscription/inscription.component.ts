@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Joueur } from '../_models/joueur';
@@ -16,14 +16,16 @@ export class InscriptionComponent implements OnInit {
   
   tournoi: any = {};
   jours: Date[];
+  loading:boolean;
   
-  constructor(private tournoiService: TournoiService, private route: ActivatedRoute, private location: Location) { }
+  constructor(private tournoiService: TournoiService, private route: ActivatedRoute, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.getTournoi(this.route.snapshot.params['id']);
   }
 
   getTournoi(id): void {
+    this.loading = true;
     this.tournoiService.getTournoi(id).subscribe(tournoi => {
       this.tournoi = tournoi;
       tournoi.tableaux.sort(function(a, b) {
@@ -35,13 +37,9 @@ export class InscriptionComponent implements OnInit {
       });
       tournoi.tableaux.forEach(tableau=>tableau.checked = tableau.inscrits.findIndex(i => i._id == this.joueur._id) != -1);
       this.jours = this.getJours();
+      this.loading = false;
     });
   }
-
-  goBack(): void {
-    this.location.back();
-  }
-
 
   private getJours() {
     var arr = this.tournoi.tableaux.map(t=>new Date(t.date_debut));
@@ -86,7 +84,7 @@ export class InscriptionComponent implements OnInit {
 
   saveInscription():void {
     this.tournoiService.saveInscription(this.tournoi._id, this.selectedOptions, this.joueur).subscribe(() => {
-      this.goBack();
+      this.router.navigate(['tournoi', this.tournoi._id]);
     })
   }
 

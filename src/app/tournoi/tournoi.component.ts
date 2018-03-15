@@ -12,6 +12,7 @@ import { TournoiService } from '../_services/tournoi.service';
 export class TournoiComponent implements OnInit {
   tournoi: any;
   jours: Date[];
+  loading:boolean;
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { }
 
@@ -20,6 +21,7 @@ export class TournoiComponent implements OnInit {
   }
 
   getTournoi(id): void {
+    this.loading = true;
     this.tournoiService.getTournoi(id).subscribe(tournoi => {
       this.tournoi = tournoi;
       tournoi.tableaux.sort(function(a, b) {
@@ -30,6 +32,7 @@ export class TournoiComponent implements OnInit {
         return 0;
       });
       this.jours = this.getJours();
+      this.loading = false;
     });
   }
 

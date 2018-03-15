@@ -16,6 +16,7 @@ import { TournoiService } from '../_services/tournoi.service';
 export class TournoisComponent implements OnInit {
   title: string;
   tournois: any[];
+  loading:boolean;
 
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute) { 
     // The following code is here to make the component reload event if, only the param changed in the route
@@ -53,6 +54,7 @@ export class TournoisComponent implements OnInit {
 
   getTournois(): void {
     var type = this.route.snapshot.params['type'];
+    this.loading = true,
     this.tournoiService.getTournois().subscribe(tournois => { 
       if (type) {
         this.tournois = tournois.filter(t => t.type == type);
@@ -88,20 +90,25 @@ export class TournoisComponent implements OnInit {
         this.tournois = tournois;
         this.title = 'Tous les tournois';
       }
+      this.loading = false;
     });
   }
 
   getTournoisAutour(position, km): void {
+    this.loading = true;
     this.tournoiService.getTournoisAutour(position, km).subscribe(tournois => { 
       this.tournois = tournois;
       this.title = "Les tournois à moins de " + km + "km";
+      this.loading = false;
     });
   }
 
   searchTournois(search: string): void {
+    this.loading = true;
     this.tournoiService.searchTournois(search).subscribe(tournois => { 
       this.tournois = tournois;
       this.title = "Les tournois correspondant à \"" +  search + "\"";
+      this.loading = false;
     });
   }
 

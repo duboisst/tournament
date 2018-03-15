@@ -11,14 +11,17 @@ import { TournoiService } from '../_services/tournoi.service';
 
 export class NavbarComponent implements OnInit {
   tournois: any[];
+  loading:boolean;
 
   constructor(private tournoiService: TournoiService, private router:Router) { 
 
   }
 
   ngOnInit() {
+    this.loading = true;
     this.tournoiService.getTournois().subscribe(_tournois => {
       this.tournois = _tournois;
+      this.loading = false;
     });
   }
 
