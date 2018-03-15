@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Joueur } from '../_models/joueur';
 import { TournoiService } from '../_services/tournoi.service';
 
 @Component({
@@ -12,8 +11,7 @@ import { TournoiService } from '../_services/tournoi.service';
 })
 export class InscriptionComponent implements OnInit {
   // TODO: implémenter système d'authentification
-  joueur: Joueur = new Joueur("5a98627d360f273e94992e1c", "3339022", "Stéphane", "Dubois", "M", "CAM Bordeaux", 940, 26547, "B2");
-  
+  joueur: any;
   tournoi: any = {};
   jours: Date[];
   loading:boolean;
@@ -21,11 +19,18 @@ export class InscriptionComponent implements OnInit {
   constructor(private tournoiService: TournoiService, private route: ActivatedRoute, private router: Router, private location: Location) { }
 
   ngOnInit() {
-    this.getTournoi(this.route.snapshot.params['id']);
+    this.loading = true;
+    this.getJoueur();
+  }
+
+  getJoueur() {
+    this.tournoiService.getJoueur().subscribe(_joueur => {
+      this.joueur = _joueur;
+      this.getTournoi(this.route.snapshot.params['id']);
+    })
   }
 
   getTournoi(id): void {
-    this.loading = true;
     this.tournoiService.getTournoi(id).subscribe(tournoi => {
       this.tournoi = tournoi;
       tournoi.tableaux.sort(function(a, b) {
@@ -119,7 +124,7 @@ export class InscriptionComponent implements OnInit {
 export class InscriptionTableauComponent implements OnInit {
   constructor(private tournoiService: TournoiService) { }  
   
-  @Input() joueur: Joueur;
+  @Input() joueur;
   @Input() tableau;
   @Input() tournoi;
 
@@ -143,16 +148,19 @@ export class InscriptionTableauComponent implements OnInit {
     // - la catégorie du joueur n'est pas autorisée OU
     // - le tableau n'est pas compatible avec un tableau déjà choisi OU
     // - le nombre maximum de tableaux par jour est atteint ET le joueur n'est pas encore inscrit (case non cochée)
-    return (
-      this.joueur.points < this.tableau.cl_min || 
-      this.joueur.points > this.tableau.cl_max || 
-      this.joueur.numero < this.tableau.numero_max ||
-      (this.isTableauComplet() && !checked) ||
-      this.tableau.sexes.findIndex(s => s == this.joueur.sexe) == -1 ||
-      this.tableau.categories.findIndex(c => c == this.joueur.categorie) == -1 ||
-      !this.isTableauCompatible() ||
-      (this.nbMaxTableauxAtteint() && !checked)
-    )
+    if (checked)
+      return false;
+    else
+      return (
+        this.joueur.points < this.tableau.cl_min || 
+        this.joueur.points > this.tableau.cl_max || 
+        this.joueur.numero < this.tableau.numero_max ||
+        (this.isTableauComplet() && !checked) ||
+        (this.tableau.sexes.length > 0 && this.tableau.sexes.findIndex(s => s == this.joueur.sexe) == -1) ||
+        (this.tableau.categories.length > 0 &&this.tableau.categories.findIndex(c => c == this.joueur.categorie) == -1) ||
+        !this.isTableauCompatible() ||
+        (this.nbMaxTableauxAtteint() && !checked)
+      )
   }
 
   private isTableauCompatible(): boolean {

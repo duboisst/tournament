@@ -3,6 +3,18 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var models = require('../models/models.js');
 
+
+/* GET SINGLE JOUEUR BY LICENSE NUMBER */
+router.get('/query', function(req, res, next) {
+  if (req.query.licence) {
+    models.Joueur.findOne({'licence':req.query.licence}, function (err, joueur) {
+      if (err) return next(err);
+      res.json(joueur);
+    });
+  }
+});
+
+
 /* GET ALL JOUEURS */
 router.get('/', function(req, res, next) {
   models.Joueur.find(function (err, joueurs) {

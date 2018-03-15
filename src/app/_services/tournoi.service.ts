@@ -40,6 +40,10 @@ export class TournoiService {
     );
   }
 
+  getJoueur(): Observable<any> {
+    return this.http.get<any>('/api/joueur/query?licence=3339022');
+  }
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
  
